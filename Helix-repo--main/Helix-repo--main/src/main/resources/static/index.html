@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iBarangay | Your Community, Within Reach</title>
+    <!-- Bootstrap 5 CSS & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-green: #14532d;
+            --primary-green-hover: #0f3d21;
+            --accent-green: #15803d;
+            --mint-bg: #f4f8f5;
+            --pill-badge-bg: #d1fae5;
+            --pill-badge-text: #065f46;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--mint-bg);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0.85rem 0;
+        }
+        .brand-logo-box {
+            width: 38px;
+            height: 38px;
+            background-color: var(--primary-green);
+            color: #ffffff;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.35rem;
+            line-height: 1;
+        }
+        .brand-title {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--primary-green);
+            line-height: 1.1;
+        }
+        .brand-subtitle {
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .nav-link-custom {
+            color: #334155 !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important;
+            transition: color 0.15s ease;
+        }
+        .nav-link-custom:hover,
+        .nav-link-custom.active {
+            color: var(--primary-green) !important;
+            font-weight: 600;
+        }
+        .btn-request-nav {
+            background-color: var(--primary-green);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 0.55rem 1.4rem;
+            border-radius: 8px;
+            border: none;
+            transition: all 0.2s ease;
+        }
+        .btn-request-nav:hover {
+            background-color: var(--primary-green-hover);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 3.5rem 0 4.5rem;
+            background: linear-gradient(180deg, rgba(244, 248, 245, 1) 0%, rgba(235, 245, 238, 0.6) 100%);
+        }
+        .badge-pill-reach {
+            background-color: var(--pill-badge-bg);
+            color: var(--pill-badge-text);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            padding: 0.45rem 1rem;
+            border-radius: 30px;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+        .hero-title {
+            font-size: 3.25rem;
+            font-weight: 800;
+            line-height: 1.15;
+            color: var(--text-dark);
+            margin-bottom: 1.25rem;
+            letter-spacing: -0.5px;
+        }
+        .hero-title .highlight-green {
+            color: var(--primary-green);
+        }
+        .hero-desc {
+            font-size: 1.05rem;
+            line-height: 1.65;
+            color: #475569;
+            max-width: 520px;
+            margin-bottom: 2rem;
+        }
+        .btn-explore {
+            background-color: var(--primary-green);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.75rem 1.6rem;
+            border-radius: 8px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .btn-explore:hover {
+            background-color: var(--primary-green-hover);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+        .btn-learn {
+            background-color: #ffffff;
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .btn-learn:hover {
+            background-color: #f8fafc;
+            border-color: #94a3b8;
+            color: #0f172a;
+        }
+        .hero-note {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 1.75rem;
+        }
+        .dot-green {
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* Right Floating Hero Card */
+        .welcome-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 2.25rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eef2f6;
+        }
+        .welcome-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+        .icon-check-box {
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary-green);
+            color: #ffffff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+        .welcome-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            line-height: 1;
+        }
+        .welcome-brand-text {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--primary-green);
+            line-height: 1.2;
+        }
+        .card-main-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+        .card-main-desc {
+            font-size: 0.9rem;
+            color: #64748b;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.15rem;
+        }
+        .feature-num {
+            width: 32px;
+            height: 32px;
+            background-color: #ecfdf5;
+            color: var(--accent-green);
+            font-weight: 700;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .feature-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.15rem;
+        }
+        .feature-desc {
+            font-size: 0.82rem;
+            color: #64748b;
+            margin: 0;
+        }
+
+        /* Section Styling */
+        .section-padding {
+            padding: 4.5rem 0;
+        }
+        .section-header {
+            text-align: center;
+            max-width: 620px;
+            margin: 0 auto 3rem;
+        }
+        .section-badge {
+            background-color: var(--pill-badge-bg);
+            color: var(--pill-badge-text);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+        }
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 0.75rem;
+        }
+        .section-desc {
+            font-size: 0.95rem;
+            color: #64748b;
+        }
+
+        /* Service Cards */
+        .service-card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 1.75rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .service-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+            border-color: #cbd5e1;
+        }
+        .service-icon-box {
+            width: 44px;
+            height: 44px;
+            background-color: #ecfdf5;
+            color: var(--primary-green);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .service-price {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--primary-green);
+        }
+
+        /* Tracker and Table Cards */
+        .content-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Footer */
+        .footer-custom {
+            background-color: #0f172a;
+            color: #94a3b8;
+            padding: 3.5rem 0 2rem;
+        }
+        .footer-title {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        .footer-link {
+            color: #94a3b8;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            transition: color 0.15s ease;
+        }
+        .footer-link:hover {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+    <div class="container">
+        <!-- Logo and Brand -->
+        <a class="navbar-brand d-flex align-items-center gap-3 text-decoration-none" href="#">
+            <div class="brand-logo-box">i</div>
+            <div>
+                <div class="brand-title">iBarangay</div>
+                <div class="brand-subtitle">COMMUNITY SERVICES PORTAL</div>
+            </div>
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Nav Links -->
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom active" href="#home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="#services">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="#how-it-works">How It Works</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="#track">Track Request</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="#citizens">Residents</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="#about">About Us</a>
+                </li>
+            </ul>
+
+            <!-- Action Button -->
+            <button class="btn btn-request-nav" data-bs-toggle="modal" data-bs-target="#modalRequestDoc">
+                Request a Document
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section (Matches Mockup Image Pixel-by-Pixel) -->
+<section class="hero-section" id="home">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            
+            <!-- Hero Left Side -->
+            <div class="col-lg-6">
+                <div class="badge-pill-reach">
+                    YOUR COMMUNITY, WITHIN REACH
+                </div>
+
+                <h1 class="hero-title">
+                    Barangay Services,<br>
+                    <span class="highlight-green">Made Simpler.</span>
+                </h1>
+
+                <p class="hero-desc">
+                    Access barangay services and request essential documents through one convenient digital platform. Less waiting, easier access, and a better community experience.
+                </p>
+
+                <div class="d-flex align-items-center gap-3 flex-wrap">
+                    <a href="#services" class="btn-explore">
+                        Explore Services <i class="bi bi-arrow-right"></i>
+                    </a>
+                    <a href="#how-it-works" class="btn-learn">
+                        Learn How It Works
+                    </a>
+                </div>
+
+                <div class="hero-note">
+                    <span class="dot-green"></span>
+                    <span>A more accessible way to serve our community</span>
+                </div>
+            </div>
+
+            <!-- Hero Right Side (Floating Card from Mockup) -->
+            <div class="col-lg-6">
+                <div class="welcome-card">
+                    <!-- Card Header -->
+                    <div class="welcome-header">
+                        <div class="icon-check-box">
+                            <i class="bi bi-check-lg"></i>
+                        </div>
+                        <div>
+                            <div class="welcome-tag">WELCOME TO</div>
+                            <div class="welcome-brand-text">iBarangay</div>
+                        </div>
+                    </div>
+
+                    <!-- Card Body -->
+                    <h2 class="card-main-title">Everything you need, in one place.</h2>
+                    <p class="card-main-desc">
+                        Your digital gateway to barangay document services and community assistance.
+                    </p>
+
+                    <!-- Feature 01 -->
+                    <div class="feature-item">
+                        <div class="feature-num">01</div>
+                        <div>
+                            <div class="feature-title">Convenient Access</div>
+                            <p class="feature-desc">Explore services anytime.</p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 02 -->
+                    <div class="feature-item">
+                        <div class="feature-num">02</div>
+                        <div>
+                            <div class="feature-title">Organized Requests</div>
+                            <p class="feature-desc">Keep your document requests organized.</p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 03 -->
+                    <div class="feature-item mb-0">
+                        <div class="feature-num">03</div>
+                        <div>
+                            <div class="feature-title">Better Service</div>
+                            <p class="feature-desc">A smoother community experience.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Live Services Section (Dynamic from Database) -->
+<section class="section-padding bg-white" id="services">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">SERVICES OFFERED</span>
+            <h2 class="section-title">Barangay Certifications & Clearances</h2>
+            <p class="section-desc">Apply online for official community documents. Processed promptly by your local barangay officials.</p>
+        </div>
+
+        <div class="row g-4" id="servicesGrid">
+            <div class="col-12 text-center py-5 text-muted">
+                <div class="spinner-border text-success" role="status"></div>
+                <div class="mt-2">Loading barangay services from database...</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Track Request Status Section -->
+<section class="section-padding" id="track">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">REAL-TIME TRACKING</span>
+            <h2 class="section-title">Track Document Request</h2>
+            <p class="section-desc">Check the real-time status and remarks of your document application.</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="content-card">
+                    <div class="row g-2 mb-4">
+                        <div class="col-md-9">
+                            <input type="text" id="trackSearchInput" class="form-control form-control-lg" placeholder="Search by Citizen Name or Purpose...">
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-explore w-100 h-100 justify-content-center" onclick="filterRequests()">
+                                <i class="bi bi-search me-1"></i> Filter
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Req #</th>
+                                    <th>Citizen</th>
+                                    <th>Document</th>
+                                    <th>Purpose</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trackTableBody">
+                                <tr><td colspan="7" class="text-center py-4 text-muted">Loading requests...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="section-padding bg-white" id="how-it-works">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">SIMPLE 3-STEP PROCESS</span>
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-desc">Requesting your barangay documents online is fast, easy, and secure.</p>
+        </div>
+
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <div class="p-4 rounded-4 border bg-light h-100">
+                    <div class="feature-num mx-auto mb-3" style="width: 48px; height: 48px; font-size: 1.1rem;">01</div>
+                    <h5 class="fw-bold">Select Document</h5>
+                    <p class="text-muted small">Choose the clearance or certification you need from our list of services.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 rounded-4 border bg-light h-100">
+                    <div class="feature-num mx-auto mb-3" style="width: 48px; height: 48px; font-size: 1.1rem;">02</div>
+                    <h5 class="fw-bold">Submit Request</h5>
+                    <p class="text-muted small">Enter your resident details, specify the purpose, and submit your request online.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 rounded-4 border bg-light h-100">
+                    <div class="feature-num mx-auto mb-3" style="width: 48px; height: 48px; font-size: 1.1rem;">03</div>
+                    <h5 class="fw-bold">Claim & Release</h5>
+                    <p class="text-muted small">Track your status. Once approved, pick up your signed document at the Barangay Hall.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Citizens Directory Section -->
+<section class="section-padding" id="citizens">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">COMMUNITY DIRECTORY</span>
+            <h2 class="section-title">Registered Residents</h2>
+            <p class="section-desc">Registered community members eligible for online barangay document issuance.</p>
+        </div>
+
+        <div class="content-card">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <input type="text" id="citizenSearch" class="form-control" style="max-width: 300px;" placeholder="Filter residents..." oninput="filterResidents()">
+                <button class="btn btn-explore btn-sm" data-bs-toggle="modal" data-bs-target="#modalRegisterCitizen">
+                    <i class="bi bi-person-plus-fill me-1"></i> Register New Citizen
+                </button>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Full Name</th>
+                            <th>Contact</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Date of Birth</th>
+                        </tr>
+                    </thead>
+                    <tbody id="citizensTableBody">
+                        <tr><td colspan="6" class="text-center py-4 text-muted">Loading resident records...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Us & Contact Section -->
+<section class="section-padding bg-white" id="about">
+    <div class="container">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6">
+                <span class="section-badge">ABOUT IBARANGAY</span>
+                <h2 class="section-title">Committed to Community Excellence</h2>
+                <p class="text-muted">
+                    iBarangay is a community digital initiative to modernize local governance. By providing direct online access to document requests, resident registration, and automated status tracking, we eliminate long queues and make public services accessible to all residents.
+                </p>
+                <div class="row g-3 mt-2">
+                    <div class="col-6">
+                        <div class="p-3 border rounded-3 bg-light">
+                            <div class="fw-bold text-dark fs-5">Mon - Fri</div>
+                            <div class="text-muted small">8:00 AM - 5:00 PM</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 border rounded-3 bg-light">
+                            <div class="fw-bold text-dark fs-5">Active Hotlines</div>
+                            <div class="text-muted small">24/7 Emergency Dispatch</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="p-4 rounded-4 bg-light border">
+                    <h5 class="fw-bold mb-3">Contact & Barangay Hall Location</h5>
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <i class="bi bi-geo-alt-fill text-success fs-4"></i>
+                        <div>
+                            <div class="fw-bold">Barangay Hall Complex</div>
+                            <div class="text-muted small">Main Street, Barangay Central</div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <i class="bi bi-telephone-fill text-success fs-4"></i>
+                        <div>
+                            <div class="fw-bold">(02) 8123-4567 / 0917-123-4567</div>
+                            <div class="text-muted small">Office of the Barangay Secretary</div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <i class="bi bi-envelope-fill text-success fs-4"></i>
+                        <div>
+                            <div class="fw-bold">services@ibarangay.gov.ph</div>
+                            <div class="text-muted small">Public Assistance & Inquiries</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer-custom">
+    <div class="container">
+        <div class="row g-4 mb-4">
+            <div class="col-md-5">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <div class="brand-logo-box" style="width: 32px; height: 32px; font-size: 1.1rem;">i</div>
+                    <div class="fw-bold text-white fs-5">iBarangay</div>
+                </div>
+                <p class="small text-secondary" style="max-width: 360px;">
+                    Digital Community Services Portal. Built for COMP 018 Database Administration project.
+                </p>
+            </div>
+            <div class="col-md-3">
+                <div class="footer-title">Quick Links</div>
+                <a href="#home" class="footer-link">Home</a>
+                <a href="#services" class="footer-link">Services</a>
+                <a href="#track" class="footer-link">Track Request</a>
+                <a href="#citizens" class="footer-link">Residents Directory</a>
+            </div>
+            <div class="col-md-4">
+                <div class="footer-title">REST API Endpoints</div>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="/api/citizens" target="_blank" class="badge bg-secondary text-decoration-none">/api/citizens</a>
+                    <a href="/api/document-types" target="_blank" class="badge bg-secondary text-decoration-none">/api/document-types</a>
+                    <a href="/api/document-requests" target="_blank" class="badge bg-secondary text-decoration-none">/api/document-requests</a>
+                    <a href="/api/requirements" target="_blank" class="badge bg-secondary text-decoration-none">/api/requirements</a>
+                    <a href="/api/admins" target="_blank" class="badge bg-secondary text-decoration-none">/api/admins</a>
+                </div>
+            </div>
+        </div>
+        <div class="border-top border-secondary pt-3 text-center small text-secondary">
+            &copy; 2026 iBarangay Community Services Portal. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<!-- Modal: Request a Document -->
+<div class="modal fade" id="modalRequestDoc" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0 pb-0">
+                <h5 class="modal-title fw-bold">Request a Barangay Document</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formRequestDoc" onsubmit="handleRequestSubmit(event)">
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Select Resident / Citizen *</label>
+                        <select class="form-select" id="rCitizenSelect" required>
+                            <option value="">Loading residents...</option>
+                        </select>
+                        <div class="form-text small">Not yet registered? <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#modalRegisterCitizen">Register citizen here</a>.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Select Document Type *</label>
+                        <select class="form-select" id="rDocTypeSelect" required>
+                            <option value="">Loading documents...</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Purpose of Request *</label>
+                        <input type="text" class="form-control" id="rPurpose" placeholder="e.g. Job Employment, Scholarship, Local ID" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Remarks</label>
+                        <textarea class="form-control" id="rRemarks" rows="2" placeholder="Any special notes or requirements verified"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-explore w-100 justify-content-center">Submit Document Request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Register Citizen -->
+<div class="modal fade" id="modalRegisterCitizen" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0 pb-0">
+                <h5 class="modal-title fw-bold">Register Citizen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formRegisterCitizen" onsubmit="handleCitizenSubmit(event)">
+                    <div class="row g-2 mb-2">
+                        <div class="col-6">
+                            <label class="form-label small fw-semibold">First Name *</label>
+                            <input type="text" class="form-control" id="cFirstName" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small fw-semibold">Last Name *</label>
+                            <input type="text" class="form-control" id="cLastName" required>
+                        </div>
+                    </div>
+                    <div class="row g-2 mb-2">
+                        <div class="col-6">
+                            <label class="form-label small fw-semibold">Middle Name</label>
+                            <input type="text" class="form-control" id="cMiddleName">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small fw-semibold">Date of Birth</label>
+                            <input type="date" class="form-control" id="cDob">
+                        </div>
+                    </div>
+                    <div class="row g-2 mb-2">
+                        <div class="col-6">
+                            <label class="form-label small fw-semibold">Contact No *</label>
+                            <input type="text" class="form-control" id="cContact" placeholder="09xxxxxxxxx" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small fw-semibold">Email</label>
+                            <input type="email" class="form-control" id="cEmail" placeholder="user@example.com">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Complete Address *</label>
+                        <textarea class="form-control" id="cAddress" rows="2" placeholder="House #, Street, Barangay" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-explore w-100 justify-content-center">Save Resident Record</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Update Status -->
+<div class="modal fade" id="modalUpdateStatus" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0 pb-0">
+                <h5 class="modal-title fw-bold">Update Request Status</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formUpdateStatus" onsubmit="handleStatusUpdate(event)">
+                    <input type="hidden" id="editRequestId">
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Select New Status *</label>
+                        <select class="form-select" id="editStatusSelect" required>
+                            <option value="PENDING">PENDING</option>
+                            <option value="PROCESSING">PROCESSING</option>
+                            <option value="APPROVED">APPROVED</option>
+                            <option value="RELEASED">RELEASED</option>
+                            <option value="REJECTED">REJECTED</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Remarks</label>
+                        <textarea class="form-control" id="editRemarks" rows="2" placeholder="Reason or pickup details..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-explore w-100 justify-content-center">Save Status Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    let allCitizens = [];
+    let allDocTypes = [];
+    let allRequests = [];
+
+    document.addEventListener("DOMContentLoaded", () => {
+        loadData();
+    });
+
+    async function loadData() {
+        await Promise.all([
+            fetchCitizens(),
+            fetchDocTypes(),
+            fetchRequests()
+        ]);
+    }
+
+    async function fetchCitizens() {
+        try {
+            const res = await fetch('/api/citizens');
+            if (res.ok) {
+                allCitizens = await res.json();
+                renderResidentsTable(allCitizens);
+                populateCitizenDropdown(allCitizens);
+            }
+        } catch (e) {
+            console.error("Error loading citizens:", e);
+        }
+    }
+
+    function renderResidentsTable(list) {
+        const tbody = document.getElementById('citizensTableBody');
+        if (!list || list.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">No resident records found. Register a resident above.</td></tr>';
+            return;
+        }
+        tbody.innerHTML = list.map(c => `
+            <tr>
+                <td class="fw-semibold text-secondary">#${c.citizenId}</td>
+                <td class="fw-bold text-dark">${c.firstName} ${c.middleName ? c.middleName + ' ' : ''}${c.lastName}</td>
+                <td>${c.contactNo || '-'}</td>
+                <td>${c.email || '-'}</td>
+                <td class="text-truncate" style="max-width: 250px;">${c.address || '-'}</td>
+                <td class="text-muted small">${c.dateOfBirth || '-'}</td>
+            </tr>
+        `).join('');
+    }
+
+    function filterResidents() {
+        const q = document.getElementById('citizenSearch').value.toLowerCase();
+        const filtered = allCitizens.filter(c => 
+            `${c.firstName} ${c.middleName || ''} ${c.lastName} ${c.address || ''} ${c.contactNo || ''}`.toLowerCase().includes(q)
+        );
+        renderResidentsTable(filtered);
+    }
+
+    function populateCitizenDropdown(list) {
+        const sel = document.getElementById('rCitizenSelect');
+        sel.innerHTML = '<option value="">Choose resident...</option>' + list.map(c => `
+            <option value="${c.citizenId}">${c.firstName} ${c.lastName} (ID #${c.citizenId})</option>
+        `).join('');
+    }
+
+    async function fetchDocTypes() {
+        try {
+            const res = await fetch('/api/document-types');
+            if (res.ok) {
+                allDocTypes = await res.json();
+                renderServicesGrid(allDocTypes);
+                populateDocTypeDropdown(allDocTypes);
+            }
+        } catch (e) {
+            console.error("Error loading document types:", e);
+        }
+    }
+
+    function renderServicesGrid(list) {
+        const grid = document.getElementById('servicesGrid');
+        if (!list || list.length === 0) {
+            grid.innerHTML = '<div class="col-12 text-center py-5 text-muted">No services found in database.</div>';
+            return;
+        }
+        grid.innerHTML = list.map(d => `
+            <div class="col-md-6 col-lg-3">
+                <div class="service-card">
+                    <div>
+                        <div class="service-icon-box">
+                            <i class="bi bi-file-earmark-check"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">${d.name}</h5>
+                        <p class="text-muted small mb-3">${d.description || 'Barangay clearance issued for resident verification and identification.'}</p>
+                    </div>
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="service-price">${parseFloat(d.fee) === 0 ? 'FREE' : '₱' + parseFloat(d.fee).toFixed(2)}</span>
+                            <span class="badge bg-light text-secondary border">${d.processingDays || 1} Day Processing</span>
+                        </div>
+                        <button class="btn btn-outline-dark btn-sm w-100 rounded-2" onclick="openRequestModalForDoc(${d.documentTypeId})">
+                            Request This Document
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function populateDocTypeDropdown(list) {
+        const sel = document.getElementById('rDocTypeSelect');
+        sel.innerHTML = '<option value="">Choose document...</option>' + list.map(d => `
+            <option value="${d.documentTypeId}">${d.name} (${parseFloat(d.fee) === 0 ? 'FREE' : '₱' + parseFloat(d.fee).toFixed(2)})</option>
+        `).join('');
+    }
+
+    function openRequestModalForDoc(docId) {
+        document.getElementById('rDocTypeSelect').value = docId;
+        const modal = new bootstrap.Modal(document.getElementById('modalRequestDoc'));
+        modal.show();
+    }
+
+    async function fetchRequests() {
+        try {
+            const res = await fetch('/api/document-requests');
+            if (res.ok) {
+                allRequests = await res.json();
+                renderTrackTable(allRequests);
+            }
+        } catch (e) {
+            console.error("Error loading requests:", e);
+        }
+    }
+
+    function renderTrackTable(list) {
+        const tbody = document.getElementById('trackTableBody');
+        if (!list || list.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center py-4 text-muted">No document requests found. Click "Request a Document" above to file one.</td></tr>';
+            return;
+        }
+        tbody.innerHTML = list.map(r => {
+            let badgeClass = 'bg-warning text-dark';
+            if (r.status === 'PROCESSING') badgeClass = 'bg-info text-white';
+            if (r.status === 'APPROVED') badgeClass = 'bg-primary text-white';
+            if (r.status === 'RELEASED') badgeClass = 'bg-success text-white';
+            if (r.status === 'REJECTED') badgeClass = 'bg-danger text-white';
+
+            const citizenName = r.citizen ? `${r.citizen.firstName} ${r.citizen.lastName}` : (r.citizenId ? `Citizen #${r.citizenId}` : '-');
+            const docName = r.documentType ? r.documentType.name : (r.documentTypeId ? `Document #${r.documentTypeId}` : '-');
+            const dateStr = r.requestDate ? r.requestDate.substring(0, 10) : '-';
+
+            return `
+                <tr>
+                    <td class="fw-semibold text-secondary">#${r.requestId}</td>
+                    <td class="fw-bold">${citizenName}</td>
+                    <td>${docName}</td>
+                    <td>${r.purpose || '-'}</td>
+                    <td class="text-muted small">${dateStr}</td>
+                    <td><span class="badge ${badgeClass} px-2 py-1">${r.status || 'PENDING'}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-secondary py-0 px-2" onclick="openStatusModal(${r.requestId}, '${r.status || 'PENDING'}', '${(r.remarks || '').replace(/'/g, "\\'")}')">
+                            Update
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    function filterRequests() {
+        const q = document.getElementById('trackSearchInput').value.toLowerCase();
+        const filtered = allRequests.filter(r => {
+            const full = `${r.requestId} ${r.purpose || ''} ${r.status || ''} ${r.citizen ? r.citizen.firstName + ' ' + r.citizen.lastName : ''}`.toLowerCase();
+            return full.includes(q);
+        });
+        renderTrackTable(filtered);
+    }
+
+    async function handleRequestSubmit(e) {
+        e.preventDefault();
+        const citizenId = document.getElementById('rCitizenSelect').value;
+        const docTypeId = document.getElementById('rDocTypeSelect').value;
+        const purpose = document.getElementById('rPurpose').value.trim();
+        const remarks = document.getElementById('rRemarks').value.trim() || 'Online application filed.';
+
+        const payload = {
+            citizen: { citizenId: parseInt(citizenId) },
+            documentType: { documentTypeId: parseInt(docTypeId) },
+            purpose: purpose,
+            remarks: remarks,
+            status: "PENDING"
+        };
+
+        try {
+            const res = await fetch('/api/document-requests', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (res.ok) {
+                bootstrap.Modal.getInstance(document.getElementById('modalRequestDoc')).hide();
+                document.getElementById('formRequestDoc').reset();
+                await fetchRequests();
+                alert("Request submitted successfully!");
+            } else {
+                alert("Failed to submit document request.");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Error: " + err.message);
+        }
+    }
+
+    async function handleCitizenSubmit(e) {
+        e.preventDefault();
+        const payload = {
+            firstName: document.getElementById('cFirstName').value.trim(),
+            lastName: document.getElementById('cLastName').value.trim(),
+            middleName: document.getElementById('cMiddleName').value.trim() || null,
+            dateOfBirth: document.getElementById('cDob').value || null,
+            contactNo: document.getElementById('cContact').value.trim(),
+            email: document.getElementById('cEmail').value.trim() || null,
+            address: document.getElementById('cAddress').value.trim()
+        };
+
+        try {
+            const res = await fetch('/api/citizens', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (res.ok) {
+                bootstrap.Modal.getInstance(document.getElementById('modalRegisterCitizen')).hide();
+                document.getElementById('formRegisterCitizen').reset();
+                await fetchCitizens();
+                alert("Resident registered successfully!");
+            } else {
+                alert("Failed to register resident.");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Error: " + err.message);
+        }
+    }
+
+    function openStatusModal(requestId, currentStatus, currentRemarks) {
+        document.getElementById('editRequestId').value = requestId;
+        document.getElementById('editStatusSelect').value = currentStatus;
+        document.getElementById('editRemarks').value = currentRemarks;
+        new bootstrap.Modal(document.getElementById('modalUpdateStatus')).show();
+    }
+
+    async function handleStatusUpdate(e) {
+        e.preventDefault();
+        const id = document.getElementById('editRequestId').value;
+        const newStatus = document.getElementById('editStatusSelect').value;
+        const newRemarks = document.getElementById('editRemarks').value;
+
+        try {
+            const res = await fetch(`/api/document-requests/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus, remarks: newRemarks })
+            });
+            if (res.ok) {
+                bootstrap.Modal.getInstance(document.getElementById('modalUpdateStatus')).hide();
+                await fetchRequests();
+            } else {
+                alert("Failed to update status.");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Error: " + err.message);
+        }
+    }
+</script>
+
+</body>
+</html>
