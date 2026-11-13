@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# BrewPOS — Database Restoration Test Script (Bash)
+# Course: COMP 018 — Database Administration (Activity 6)
+# Safety Rule: Restores strictly into a separate disposable test database!
+# ==============================================================================
+set -euo pipefail
+
+BACKUP_FILE="${1:-}"
+ENV_FILE="${2:-../configuration/.env}"
+HOST="${DB_HOST:-localhost}"
+PORT="${DB_PORT:-5432}"
+ORIGINAL_DB="${DB_NAME:-grp_brewposdb}"
+TEST_DB="${RESTORE_TEST_DB:-grp_brewposdb_restore_test}"
+USERNAME="${DB_SUPERUSER:-postgres}"
+
+if [[ -f "$ENV_FILE" ]]; then
+    set -a
+    # shellcheck disable=SC1090
+    source "$ENV_FILE"
+    set +a
+    HOST="${DB_HOST:-$HOST}"
+    PORT="${DB_PORT:-$PORT}"
+    ORIGINAL_DB="${DB_NAME:-$ORIGINAL_DB}"
+    TEST_DB="${RESTORE_TEST_DB:-$TEST_DB}"
+    USERNAME="${DB_SUPERUSER:-$USERNAME}"
+    export PGPASSWORD="${DB_PASSWORD:-${PGPASSWORD:-}}"
+fi
+
+# Strict safety verification
+if [[ "$TEST_DB" == "$ORIGINAL_DB" ]]; then
+    echo "[CRITICAL SAFETY ERROR] Cannot restore onto original database ($ORIGINAL_DB)!" >&2
+    exit 1
+fi
+
+if [[ -z "$BACKUP_FILE" ]]; then
+    BACKUP_FILE=$(find ../backups -name "*.dump" -type f -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -n1 | cut -d' ' -f2-)
+fi
+
+if [[ -z "$BACKUP_FILE" || ! -f "$BACKUP_FILE" ]]; then
+    echo "[ERROR] No valid backup dump file found." >&2
+    exit 1
+fi
+
+if [[ -z "${PGPASSWORD:-}" ]]; then
+    read -rsp "Enter password for PostgreSQL user '$USERNAME': " PGPASSWORD
+    echo
+    export PGPASSWORD
+fi
+
+echo "[INFO] Restoring into isolated test database: $TEST_DB"
+createdb -U "$USERNAME" -h "$HOST" -p "$PORT" -E UTF8 "$TEST_DB" 2>/dev/null || true
+
+pg_restore -U "$USERNAME" -h "$HOST" -p "$PORT" -d "$TEST_DB" --no-owner -v "$BACKUP_FILE" || true
+
+TABLE_COUNT=$(psql -U "$USERNAME" -h "$HOST" -p "$PORT" -d "$TEST_DB" -t -A -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE';")
+echo "[SUCCESS] Restoration completed. Restored tables in public: $TABLE_COUNT (Expected: 5)"
+

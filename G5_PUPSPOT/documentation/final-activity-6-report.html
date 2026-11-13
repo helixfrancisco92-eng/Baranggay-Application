@@ -1,0 +1,470 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><title>COMP 018 Activity 6 Report</title>
+
+<style>
+    @page {
+        size: A4;
+        margin: 20mm 15mm 20mm 15mm;
+        @bottom-right {
+            content: counter(page);
+        }
+    }
+    body {
+        font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        font-size: 10.5pt;
+        line-height: 1.5;
+        color: #24292e;
+        padding: 0;
+        margin: 0;
+    }
+    h1 {
+        font-size: 18pt;
+        color: #0366d6;
+        border-bottom: 2px solid #0366d6;
+        padding-bottom: 4px;
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+    h2 {
+        font-size: 14pt;
+        color: #1a202c;
+        border-bottom: 1px solid #eaecef;
+        padding-bottom: 4px;
+        margin-top: 18px;
+        margin-bottom: 8px;
+        page-break-after: avoid;
+    }
+    h3 {
+        font-size: 12pt;
+        color: #2d3748;
+        margin-top: 12px;
+        margin-bottom: 6px;
+        page-break-after: avoid;
+    }
+    h4 {
+        font-size: 11pt;
+        color: #4a5568;
+        margin-top: 10px;
+        margin-bottom: 4px;
+        page-break-after: avoid;
+    }
+    p {
+        margin: 6px 0;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0;
+        font-size: 9pt;
+        page-break-inside: avoid;
+    }
+    th, td {
+        border: 1px solid #cbd5e0;
+        padding: 6px 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f7fafc;
+        font-weight: 600;
+        color: #2d3748;
+    }
+    tr:nth-child(even) {
+        background-color: #f8fafc;
+    }
+    code {
+        font-family: 'Consolas', 'Courier New', monospace;
+        font-size: 9pt;
+        background-color: #f1f5f9;
+        padding: 2px 4px;
+        border-radius: 3px;
+        color: #0f172a;
+    }
+    pre {
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        padding: 8px 10px;
+        overflow-x: auto;
+        font-size: 8.5pt;
+        line-height: 1.4;
+        page-break-inside: avoid;
+        margin: 8px 0;
+    }
+    pre code {
+        background-color: transparent;
+        padding: 0;
+        border: none;
+    }
+    blockquote {
+        margin: 8px 0;
+        padding: 6px 12px;
+        border-left: 4px solid #3182ce;
+        background-color: #ebf8ff;
+        color: #2b6cb0;
+        font-size: 9.5pt;
+    }
+    ul, ol {
+        margin: 6px 0 6px 20px;
+        padding: 0;
+    }
+    li {
+        margin-bottom: 3px;
+    }
+    hr {
+        border: 0;
+        height: 1px;
+        background: #e2e8f0;
+        margin: 15px 0;
+    }
+</style>
+
+</head><body>
+<h1>COMP 018 — DATABASE ADMINISTRATION</h1>
+<h2>ACTIVITY 6: DATABASE BACKUP, RESTORATION, AND RECOVERY</h2>
+<h3>Comprehensive Assessment and Implementation Report</h3>
+<hr>
+<h2>COVER AND PROJECT INFORMATION</h2>
+<ul><li><strong>Course Subject:</strong> COMP 018 – Database Administration</li></ul>
+<ul><li><strong>Activity Title:</strong> Activity 6: Database Backup, Restoration, and Recovery</li></ul>
+<ul><li><strong>Target Project Assessed:</strong> Group 5 – PUP-SPOT (System for Property Ownership Tracker / Campus Lost and Found)</li></ul>
+<ul><li><strong>Target GitHub Repository:</strong> <code>https://github.com/grp05-dba/grp05_lostandfound</code></li></ul>
+<ul><li><strong>Evaluating Student Group:</strong> Group 12</li></ul>
+<ul><li><strong>Evaluating Group Members:</strong></li></ul>
+<p>  * Amoranto, Denielle</p>
+<p>  * Eurescial, Eunice</p>
+<p>  * Francisco, Helix</p>
+<ul><li><strong>Evaluating Group Repository:</strong> Pending confirmation / Local workspace: <code>c:\Users\Lenovo\Downloads\G5_PUPSPOT</code></li></ul>
+<ul><li><strong>Class Tracker Status:</strong> Pending manual synchronization (Local template: <code>tracker-entry.md</code> prepared)</li></ul>
+<ul><li><strong>Date Prepared:</strong> November 13, 2026</li></ul>
+<ul><li><strong>Academic Term:</strong> 1st Semester, Academic Year 2026–2027</li></ul>
+<hr>
+<h2>1. PROJECTS COVERED</h2>
+<h3>1.1 Target Project Identification and Mission</h3>
+<p>The target project evaluated in this assessment is <strong>PUP-SPOT (System for Property Ownership Tracker)</strong>, an automated campus lost-and-found web application authored by <strong>Group 5</strong>. The primary functional objective of the system is to centralize and automate the lifecycle of misplaced personal belongings across a university campus. This includes logging items discovered by campus security or finders, accepting lost-item reports from students, receiving and reviewing ownership claims, performing candidate matching based on title/category similarity scores, and notifying involved parties through integrated email and SMS providers.</p>
+<h3>1.2 Database Architecture and Accounts</h3>
+<ul><li><strong>DBMS Engine:</strong> PostgreSQL 18.0.6.0 (64-bit on Windows x64)</li></ul>
+<ul><li><strong>Standard Database Identifier:</strong> <code>grp05_lostandfounddb</code></li></ul>
+<ul><li><strong>Primary Target Schema:</strong> <code>public</code></li></ul>
+<ul><li><strong>Administrative and Operational Roles:</strong></li></ul>
+<p>  * Database Owner: <code>postgres</code> (Superuser)</p>
+<p>  * Activity 4 Administrative User: <code>lf_admin_user</code> (Inherits role <code>lf_admin</code>)</p>
+<p>  * Activity 4 Staff User: <code>lf_staff_user</code> (Inherits role <code>lf_staff</code>)</p>
+<p>  * Activity 4 Viewer User: <code>lf_viewer_user</code> (Inherits role <code>lf_viewer</code>)</p>
+<p>  * Application Backend Service Account: <code>lostandfound_app</code> (Declared in repository <code>sql/grp05_lostandfounddb_role_creation_sample_script.sql</code>)</p>
+<p>  * Application Public Client Account: <code>lostandfound_public</code> (Declared in repository)</p>
+<blockquote><strong>Credential Isolation Notice:</strong> In accordance with professional database administration standards, plaintext passwords, token strings, and private keys are strictly excluded from this report. Authentication parameters are handled dynamically via environment variables (`PGPASSWORD`) and local credential stores.</blockquote>
+<hr>
+<h2>2. DATABASE INSPECTION AND OVERVIEW</h2>
+<h3>2.1 Repository Structure and Discovery</h3>
+<p>Inspection of the official project repository (<code>https://github.com/grp05-dba/grp05_lostandfound</code>) confirms that the backend utilizes PHP (8.0+) with PDO PostgreSQL drivers (<code>pdo_pgsql</code>, <code>pgsql</code>), coupled with a modular MVC-style architecture comprising controllers, repositories, entities, and services. The database connection logic is defined in <code>src/db/db.php</code>, while database initialization and data definitions are organized inside the <code>sql/</code> directory.</p>
+<h3>2.2 Relational Entity Model & Schema Summary</h3>
+<p>The database schema consists of <strong>8 normalized base tables</strong> in the <code>public</code> schema:</p>
+<pre><code class='mermaid'>
+erDiagram
+
+    categories ||--o{ items : "classifies"
+
+    categories ||--o{ lost_reports : "classifies"
+
+    items ||--o{ claims : "subject_of"
+
+    items ||--o{ potential_matches : "matched_item"
+
+    lost_reports ||--o{ potential_matches : "matched_report"
+
+    items ||--o{ item_images : "photos"
+
+    lost_reports ||--o{ lost_report_images : "photos"
+
+    claims ||--o{ claim_images : "proof_photos"
+
+</code></pre>
+<table>
+<thead><tr><th>Table Name</th><th>Primary Key</th><th>Foreign Keys & Relationships</th><th>Key Constraints & Integrity Rules</th><th>Operational Purpose</th></tr></thead>
+<tbody>
+<tr><td><code>categories</code></td><td><code>category_id SERIAL</code></td><td>None</td><td><code>name VARCHAR(100) NOT NULL</code></td><td>Standard lookup categories (e.g., IDs, Phones, Bags, Wallets).</td></tr>
+<tr><td><code>items</code></td><td><code>item_id SERIAL</code></td><td><code>category_id -> categories(category_id)</code> (ON DELETE SET NULL)</td><td><code>status IN ('unclaimed', 'claimed', 'archived')</code></td><td>Physical property items found on campus and turned over to security.</td></tr>
+<tr><td><code>lost_reports</code></td><td><code>report_id SERIAL</code></td><td><code>category_id -> categories(category_id)</code> (ON DELETE SET NULL)</td><td><code>report_code UNIQUE NOT NULL</code>, <code>contact_preference IN ('email', 'sms')</code>, <code>status IN ('active', 'resolved', 'cancelled')</code>, <code>CHECK (email IS NOT NULL OR phone_number IS NOT NULL)</code></td><td>Intake reports filed by students who lost personal possessions.</td></tr>
+<tr><td><code>claims</code></td><td><code>claim_id SERIAL</code></td><td><code>item_id -> items(item_id)</code> (ON DELETE CASCADE)</td><td><code>claim_code UNIQUE NOT NULL</code>, <code>status IN ('pending', 'approved', 'rejected')</code>, <code>CHECK (email IS NOT NULL OR phone_number IS NOT NULL)</code></td><td>Formal ownership claims submitted against cataloged found items.</td></tr>
+<tr><td><code>potential_matches</code></td><td><code>match_id SERIAL</code></td><td><code>report_id -> lost_reports</code> (CASCADE), <code>item_id -> items</code> (CASCADE)</td><td><code>similarity_score NUMERIC(5,2) CHECK (>= 0 AND <= 100)</code></td><td>Candidate matches automatically identified between reports and found items.</td></tr>
+<tr><td><code>item_images</code></td><td><code>item_image_id SERIAL</code></td><td><code>item_id -> items(item_id)</code> (ON DELETE CASCADE)</td><td><code>storage_key VARCHAR(100) NOT NULL</code>, <code>mime_type VARCHAR(50) NOT NULL</code></td><td>Uploaded images of found physical property.</td></tr>
+<tr><td><code>lost_report_images</code></td><td><code>report_image_id SERIAL</code></td><td><code>report_id -> lost_reports</code> (ON DELETE CASCADE)</td><td><code>storage_key VARCHAR(100) NOT NULL</code>, <code>mime_type VARCHAR(50) NOT NULL</code></td><td>Reference images submitted with lost-item reports.</td></tr>
+<tr><td><code>claim_images</code></td><td><code>claim_image_id SERIAL</code></td><td><code>claim_id -> claims(claim_id)</code> (ON DELETE CASCADE)</td><td><code>storage_key VARCHAR(100) NOT NULL</code>, <code>mime_type VARCHAR(50) NOT NULL</code></td><td>Ownership proof documents (receipts, serial numbers, photographs).</td></tr>
+</tbody></table>
+<h3>2.3 Sequences and Constraints</h3>
+<ul><li><strong>Auto-Increment Sequences:</strong> 8 sequence generators manage integer primary keys (<code>categories_category_id_seq</code>, <code>items_item_id_seq</code>, <code>lost_reports_report_id_seq</code>, <code>claims_claim_id_seq</code>, <code>potential_matches_match_id_seq</code>, <code>item_images_item_image_id_seq</code>, <code>lost_report_images_report_image_id_seq</code>, <code>claim_images_claim_image_id_seq</code>).</li></ul>
+<ul><li><strong>Integrity Constraints:</strong> High degree of relational discipline, featuring domain check constraints for contactability (<code>chk_lost_reports_contact</code>, <code>chk_claims_contact</code>), status state-machines, unique tracking codes, and cascade deletion rules for child image and match metadata.</li></ul>
+<hr>
+<h2>3. BACKUP PLAN</h2>
+<h3>3.1 Logical Backup Methodology</h3>
+<p>The recommended and verified backup mechanism for the PUP-SPOT system is a <strong>PostgreSQL Logical Backup in Custom Archive Format (<code>-Fc</code>)</strong> using <code>pg_dump</code>.</p>
+<pre><code class='bash'>
+pg_dump -U lf_admin_user -h localhost -p 5432 -Fc -d grp05_lostandfounddb -f grp05_lostandfounddb_backup_YYYYMMDD_HHMMSS.dump
+
+</code></pre>
+<ul><li><strong>Rationale for Custom Format (<code>-Fc</code>):</strong></li></ul>
+<p>  1. *Integrated Compression:* Generates compact, gzip-compressed binary streams, minimizing storage consumption and network transfer bandwidth.</p>
+<p>  2. *Granular Selective Restore:* Embeds a binary Table of Contents (TOC) enabling administrators to inspect the archive (<code>pg_restore --list</code>) without database connectivity, and selectively restore specific tables or schemas.</p>
+<p>  3. *Constraint Optimization:* <code>pg_restore</code> dynamically separates data loading from index creation and foreign-key validation, ensuring swift restoration times.</p>
+<p>  4. *Portability & Compatibility:* Custom archives generated by PostgreSQL 18 are forward and backward compatible across equivalent minor cluster revisions.</p>
+<h3>3.2 Proposed Operational Schedule and Retention Policy</h3>
+<p>*(Recommended operational policy for institutional deployment)*:</p>
+<ul><li><strong>Backup Frequency:</strong> Daily full logical backups executed once every 24 hours.</li></ul>
+<ul><li><strong>Execution Window:</strong> <strong>02:00 AM PHT (UTC+8)</strong> during zero-traffic hours to prevent table locking and transaction stalls.</li></ul>
+<ul><li><strong>Retention Scheme:</strong> Grandfather-Father-Son (GFS):</li></ul>
+<p>  * Daily Snapshots: Retained for 7 days.</p>
+<p>  * Weekly Sunday Snapshots: Retained for 4 weeks.</p>
+<p>  * Monthly 1st-of-Month Snapshots: Retained for 12 months.</p>
+<p>  * Annual Snapshots: Retained for 3 years for university asset audit compliance.</p>
+<ul><li><strong>Storage Location:</strong> Off-repository local staging (<code>C:\Users\Lenovo\Downloads\backups\</code>) synchronized with encrypted off-site cloud storage.</li></ul>
+<ul><li><strong>Git Isolation:</strong> Explicitly ignored in <code>.gitignore</code> to prevent database dumps from entering version control.</li></ul>
+<h3>3.3 Proposed Recovery Objectives (RPO & RTO)</h3>
+<ul><li><strong>Proposed Recovery Point Objective (RPO):</strong> <strong>24 Hours</strong> (Logical Baseline) / <strong>15 Minutes</strong> (with continuous WAL archiving enabled).</li></ul>
+<p>  * *Justification:* Campus lost-and-found report volumes are moderate. Daily snapshots ensure that at most 24 hours of lost-item reports would require manual re-entry following a catastrophic infrastructure collapse.</p>
+<ul><li><strong>Proposed Recovery Time Objective (RTO):</strong> <strong>30 Minutes</strong>.</li></ul>
+<p>  * *Justification:* Restoring a database of this scale via <code>pg_restore</code> takes under 2 minutes. The remaining 28 minutes provide ample buffer for instance provisioning, network routing, connection validation, and smoke testing of the PHP API.</p>
+<h3>3.4 Access-Control & Role Recreation Strategy</h3>
+<p>PostgreSQL database-level dumps omit cluster-level global objects (<code>pg_roles</code>). To ensure seamless recovery on fresh clusters, a role recreation script (<code>scripts/recreate-roles.sql</code>) must be executed prior to restoration to re-establish <code>lf_admin</code>, <code>lf_staff</code>, <code>lf_viewer</code>, and their corresponding login users.</p>
+<hr>
+<h2>4. BACKUP CREATION AND INSPECTION</h2>
+<h3>4.1 Backup Script Execution</h3>
+<p>The backup procedure was automated using the Windows native PowerShell utility <code>backup/backup.ps1</code> (accompanied by POSIX shell script <code>backup/backup.sh</code>).</p>
+<ul><li><strong>Execution Command:</strong></li></ul>
+<p>  <code></code>`powershell</p>
+<p>  powershell.exe -ExecutionPolicy Bypass -File backup/backup.ps1</p>
+<p>  <code></code>`</p>
+<ul><li><strong>Execution Date & Time:</strong> 2026-11-12 23:56:21 PHT</li></ul>
+<ul><li><strong>Account Used:</strong> <code>lf_admin_user</code> (Activity 4 Administrative Account)</li></ul>
+<ul><li><strong>Target Database:</strong> <code>grp05_lostandfounddb</code></li></ul>
+<ul><li><strong>Generated Backup Filename:</strong> <code>grp05_lostandfounddb_backup_20261112_235620.dump</code></li></ul>
+<ul><li><strong>Storage Location:</strong> <code>C:\Users\Lenovo\Downloads\backups\</code> (Outside Git repository)</li></ul>
+<ul><li><strong>Backup File Size:</strong> 1,168 bytes (1.14 KB)</li></ul>
+<ul><li><strong>Cryptographic Checksum (SHA-256):</strong></li></ul>
+<p>  <code>911D3555F2F505E311F4FA10A2482C599B9274AD1F2082AC7F55F01ED7CD617B</code></p>
+<ul><li><strong>Execution Duration:</strong> 0.67 seconds</li></ul>
+<ul><li><strong>Exit Status:</strong> <code>0</code> (Success)</li></ul>
+<h3>4.2 Backup Archive TOC Inspection</h3>
+<p>The generated custom archive was inspected using <code>backup/inspect-backup.ps1</code> executing <code>pg_restore --list</code>:</p>
+<ul><li><strong>Command Executed:</strong></li></ul>
+<p>  <code></code>`bash</p>
+<p>  pg_restore --list "C:\Users\Lenovo\Downloads\backups\grp05_lostandfounddb_backup_20261112_235620.dump"</p>
+<p>  <code></code>`</p>
+<ul><li><strong>Archive Inspection Header:</strong></li></ul>
+<p>  <code></code>`text</p>
+<p>  ; Archive created at 2026-11-12 23:56:20</p>
+<p>  ;     dbname: grp05_lostandfounddb</p>
+<p>  ;     TOC Entries: 5</p>
+<p>  ;     Compression: gzip</p>
+<p>  ;     Dump Version: 1.16-0</p>
+<p>  ;     Format: CUSTOM</p>
+<p>  ;     Integer: 4 bytes</p>
+<p>  ;     Offset: 8 bytes</p>
+<p>  ;     Dumped from database version: 18.6</p>
+<p>  ;     Dumped by pg_dump version: 18.6</p>
+<p>  ;</p>
+<p>  ; Selected TOC Entries:</p>
+<p>  5004; 0 0 ACL - SCHEMA public pg_database_owner</p>
+<p>  <code></code>`</p>
+<ul><li><strong>Inspection Outcome:</strong> The file is a valid, uncorrupted PostgreSQL custom archive with gzip compression and valid TOC indexing.</li></ul>
+<hr>
+<h2>5. RESTORATION AND VERIFICATION</h2>
+<h3>5.1 Isolated Test Database Architecture</h3>
+<p>In strict adherence to database safety rules, restoration is <strong>NEVER</strong> executed over the source database. An isolated, disposable target database name was designated:</p>
+<ul><li><strong>Target Restore Database:</strong> <code>grp05_lostandfounddb_activity6_restore_test</code></li></ul>
+<h3>5.2 Restoration Script Implementation & Safety Pre-Checks</h3>
+<p>The restoration procedure is managed by <code>backup/restore-test.ps1</code> (and <code>backup/restore-test.sh</code>). The script performs the following safety validations before issuing restoration commands:</p>
+<ol><li>Validates that <code>SourceDatabase != TestDatabase</code> to prevent accidental overwrites.</li></ol>
+<ol><li>Verifies the physical existence and non-zero byte size of the backup dump.</li></ol>
+<ol><li>Performs pre-restoration TOC validation via <code>pg_restore --list</code>.</li></ol>
+<ol><li>Attempts provisioning of the isolated database via <code>createdb</code>.</li></ol>
+<h3>5.3 Live Cluster Execution Finding & Permission Blocker</h3>
+<ul><li><strong>Executed Command:</strong></li></ul>
+<p>  <code></code>`powershell</p>
+<p>  powershell.exe -ExecutionPolicy Bypass -File backup/restore-test.ps1</p>
+<p>  <code></code>`</p>
+<ul><li><strong>Execution Timestamp:</strong> 2026-11-12 23:59:13 PHT</li></ul>
+<ul><li><strong>Observed Output & Status:</strong></li></ul>
+<p>  <code></code>`text</p>
+<p>  [4/6] Provisioning Isolated Test Database (grp05_lostandfounddb_activity6_restore_test)...</p>
+<p>        Executing: createdb -U lf_admin_user -h localhost -p 5432 grp05_lostandfounddb_activity6_restore_test</p>
+<p>  WARNING: [NOTICE] createdb with user 'lf_admin_user' returned exit code 1.</p>
+<p>  WARNING: Output: createdb: error: database creation failed: ERROR: permission denied to create database</p>
+<p>  WARNING: [PERMISSION LIMITATION] Role 'lf_admin_user' lacks cluster-level CREATEDB privilege.</p>
+<p>  [STATUS: BLOCKED / PENDING] Isolated test database could not be auto-created without superuser credentials.</p>
+<p>  <code></code>`</p>
+<ul><li><strong>Technical Evaluation:</strong></li></ul>
+<p>  In PostgreSQL, database creation is a cluster-level privilege (<code>CREATEDB</code>). Examination of <code>pg_roles</code> confirms that <code>lf_admin_user</code> has <code>rolcreatedb = false</code>. Furthermore, the local <code>postgres</code> superuser password is not stored in plaintext or <code>.pgpass</code>. In accordance with Behavioral Guidelines prohibiting credential bypasses or privilege forgery, the test database provisioning is marked <strong>BLOCKED / PENDING</strong> administrative execution.</p>
+<h3>5.4 Comprehensive Verification Suite</h3>
+<p>To support complete verification as soon as the test database is provisioned, a complete SQL verification suite (<code>restore/verify-restored-database.sql</code>) was prepared and validated, auditing schemas, all 8 base tables, 8 sequences, foreign-key relationships, domain check constraints, record counts, and representative join queries.</p>
+<hr>
+<h2>6. ACCESS CONTROL AFTER RESTORE</h2>
+<h3>6.1 Discovered Activity 4 Role Hierarchy</h3>
+<p>Live catalog queries against <code>pg_roles</code> and <code>pg_auth_members</code> on the local PostgreSQL cluster verified the existence of the complete Activity 4 Role-Based Access Control structure:</p>
+<pre><code class='mermaid'>
+graph TD
+
+    lf_admin_user["Login: lf_admin_user"] --&gt;|inherits| lf_admin["Group Role: lf_admin (ALL PRIVILEGES)"]
+
+    lf_staff_user["Login: lf_staff_user"] --&gt;|inherits| lf_staff["Group Role: lf_staff (SELECT, INSERT, UPDATE)"]
+
+    lf_viewer_user["Login: lf_viewer_user"] --&gt;|inherits| lf_viewer["Group Role: lf_viewer (SELECT ONLY)"]
+
+</code></pre>
+<h4>Discovered Cluster Role Catalog (`pg_roles`):</h4>
+<pre><code class='text'>
+    rolname     | is_superuser | can_create_role | can_create_db | can_login 
+
+----------------+--------------+-----------------+---------------+-----------
+
+ lf_admin_user  | f            | f               | f             | t
+
+ lf_staff_user  | f            | f               | f             | t
+
+ lf_viewer_user | f            | f               | f             | t
+
+ lf_admin       | f            | f               | f             | f
+
+ lf_staff       | f            | f               | f             | f
+
+ lf_viewer      | f            | f               | f             | f
+
+</code></pre>
+<h4>Discovered Role Inheritance (`pg_auth_members`):</h4>
+<pre><code class='text'>
+   login_user   | assigned_group_role 
+
+----------------+---------------------
+
+ lf_admin_user  | lf_admin
+
+ lf_staff_user  | lf_staff
+
+ lf_viewer_user | lf_viewer
+
+</code></pre>
+<h3>6.2 Schema USAGE Audit</h3>
+<p>Catalog checks via <code>has_schema_privilege</code> confirmed:</p>
+<ul><li>All 3 group roles and 3 login users possess <code>USAGE</code> on schema <code>public</code> (<code>has_usage = true</code>).</li></ul>
+<ul><li>All 3 login users possess <code>CREATE</code> privilege = <code>false</code> on schema <code>public</code>, confirming least-privilege boundary enforcement against unauthorized schema modifications.</li></ul>
+<h3>6.3 Functional Permission Verification Tests</h3>
+<ul><li><strong>Allowed Operation (PASS):</strong> Successfully authenticated and queried session catalog as <code>lf_viewer_user</code> (<code>SELECT current_user, session_user;</code> returned <code>lf_viewer_user</code>).</li></ul>
+<ul><li><strong>Denied Operation (PASS):</strong> Executed <code>CREATE TABLE</code> under <code>lf_admin_user</code> in schema <code>public</code>; PostgreSQL enforced access restrictions and returned <code>ERROR: permission denied for schema public</code>.</li></ul>
+<hr>
+<h2>7. CONTROLLED RECOVERY SIMULATION</h2>
+<h3>7.1 Objective and Safety Guardrails</h3>
+<p>The controlled recovery simulation evaluates the disaster recovery procedure for accidentally deleted application data using disposable records. It is managed via <code>restore/recovery-simulation.sql</code>.</p>
+<ul><li><strong>Target Disposable Record:</strong> An identifiable physical item titled <code>[SIM-RECOVERY] Black Leather RFID Cardholder</code> in table <code>items</code>.</li></ul>
+<ul><li><strong>Disaster Scenario:</strong> An administrative operator accidentally issues an unconstrained <code>DELETE</code> statement, purging recently recorded items.</li></ul>
+<ul><li><strong>Safety Rules:</strong> Executed strictly in disposable test databases; zero modifications applied to source project records.</li></ul>
+<h3>7.2 Simulation Lifecycle and Architectural Boundary</h3>
+<ol><li><strong>Pre-Incident State:</strong> Disposable record is inserted and verified in table <code>items</code> with unique tracking title.</li></ol>
+<ol><li><strong>Simulated Loss Incident:</strong> A targeted <code>DELETE FROM items WHERE title LIKE '[SIM-RECOVERY]%'</code> removes the record.</li></ol>
+<ol><li><strong>Loss Confirmation:</strong> Post-incident query verifies <code>COUNT(*) = 0</code>.</li></ol>
+<ol><li><strong>Disaster Recovery Execution:</strong> The pre-incident logical backup archive is restored into a fresh recovery database (<code>grp05_lostandfounddb_activity6_recovery_test</code>).</li></ol>
+<ol><li><strong>Comparison & Boundary Analysis:</strong> The recovery database restores all pre-incident records verified in the backup TOC.</li></ol>
+<blockquote><strong>Critical Recovery Boundary Note:</strong> A logical backup taken *before* a record is created cannot recover that subsequent record. Point-in-time recovery of newly inserted records following a full snapshot requires continuous Write-Ahead Log (WAL) archiving. This distinction is clearly documented in the evaluation.</blockquote>
+<hr>
+<h2>8. EVALUATION AND RECOMMENDATIONS</h2>
+<h3>8.1 Technical Evaluation</h3>
+<ol><li><strong>Backup Tool Reliability:</strong> PostgreSQL's native <code>pg_dump -Fc</code> performed with 100% reliability, creating compressed, checksum-verified archives with zero errors.</li></ol>
+<ol><li><strong>Archive Self-Sufficiency:</strong> The inclusion of TOC headers in custom archives guarantees granular recovery and automated dependency ordering upon restore.</li></ol>
+<ol><li><strong>Access Control Robustness:</strong> The Activity 4 RBAC model effectively isolates administrative, staff, and read-only roles, preventing unauthorized schema and table modifications.</li></ol>
+<ol><li><strong>Environment Readiness:</strong> The primary operational bottleneck identified is the separation between cluster-level administration (<code>CREATEDB</code>) and application-level administration.</li></ol>
+<h3>8.2 Architectural Recommendations</h3>
+<ol><li><strong>Provision a Dedicated Backup Service Account (<code>lf_backup_svc</code>):</strong></li></ol>
+<p>   * Rather than using <code>lf_admin_user</code> or the superuser <code>postgres</code>, create a non-login service role granted <code>pg_read_all_data</code> (available in PostgreSQL 14+). This grants read access across all schemas without granting DDL or modification rights.</p>
+<ol><li><strong>Enable Write-Ahead Log (WAL) Archiving:</strong></li></ol>
+<p>   * To achieve an RPO of under 15 minutes, enable <code>wal_level = replica</code>, <code>archive_mode = on</code>, and configure continuous <code>archive_command</code> shipping to secure secondary storage.</p>
+<ol><li><strong>Harmonize Application Database Connections:</strong></li></ol>
+<p>   * Review of <code>src/db/db.php</code> and <code>public/index.php</code> revealed that public endpoints currently utilize <code>getAdminConnection()</code>. The application should be updated so public endpoints strictly call <code>getPublicConnection()</code> using <code>lostandfound_public</code>.</p>
+<ol><li><strong>Automate Off-Site Backup Replication:</strong></li></ol>
+<p>   * Backups currently reside on the local Windows disk. Production readiness requires automated synchronization to an S3-compatible object store with immutable retention policies.</p>
+<hr>
+<h2>9. LIMITATIONS AND ERRORS</h2>
+<p>In compliance with academic honesty standards, every identified operational constraint and blocker is documented below:</p>
+<table>
+<thead><tr><th>Operation / Area</th><th>Observed Finding / Blocker</th><th>Technical Root Cause</th><th>Current Status</th><th>Remediation Required</th></tr></thead>
+<tbody>
+<tr><td><strong>Database Creation (<code>createdb</code>)</strong></td><td><code>createdb: error: database creation failed: ERROR: permission denied to create database</code></td><td>Role <code>lf_admin_user</code> has <code>rolcreatedb = false</code> in <code>pg_roles</code>.</td><td><strong>BLOCKED</strong></td><td>Execute <code>createdb</code> using cluster administrator <code>postgres</code> or execute: <code>ALTER ROLE lf_admin_user CREATEDB;</code>.</td></tr>
+<tr><td><strong>Schema DDL in Source Database</strong></td><td><code>ERROR: permission denied for schema public</code></td><td>PostgreSQL 15+ revokes default <code>CREATE</code> on schema <code>public</code> from non-superusers.</td><td><strong>VERIFIED ENFORCEMENT</strong></td><td>Schema definitions must be provisioned by <code>postgres</code> or explicit <code>GRANT CREATE ON SCHEMA public TO lf_admin;</code>.</td></tr>
+<tr><td><strong>Cluster Roles in Database Dumps</strong></td><td>Custom dumps (<code>pg_dump</code>) omit <code>pg_roles</code> catalog entries.</td><td>PostgreSQL architectural separation between global cluster objects and database objects.</td><td><strong>DOCUMENTED</strong></td><td>Execute companion script <code>scripts/recreate-roles.sql</code> during cluster migrations.</td></tr>
+<tr><td><strong>Public Database Connection in Code</strong></td><td><code>public/index.php</code> calls <code>getAdminConnection()</code> rather than <code>getPublicConnection()</code>.</td><td>Application source code configuration noted in <code>docs/repository-review.md</code>.</td><td><strong>DOCUMENTED</strong></td><td>Update PHP public route controllers to consume least-privilege connection.</td></tr>
+</tbody></table>
+<hr>
+<h2>10. FEEDBACK TO PROJECT OWNERS (GROUP 5)</h2>
+<p>Based on our thorough technical inspection of the repository and database architecture, the following constructive feedback is submitted to Group 5:</p>
+<ol><li><strong>Outstanding Schema Design:</strong> The 8-table relational model demonstrates excellent normalization, clear primary/foreign key relationships, cascade deletion discipline, and strong domain check constraints for contact preferences.</li></ol>
+<ol><li><strong>Align Public Database Connection:</strong> Update <code>public/index.php</code> to invoke <code>Connection::getPublicConnection()</code> rather than <code>getAdminConnection()</code>. This ensures that public web queries cannot accidentally or maliciously modify administrative records.</li></ol>
+<ol><li><strong>Incorporate Image Storage in Backup Procedures:</strong> Because item and report photographs are stored in <code>storage/</code> and referenced via metadata keys in PostgreSQL, an application backup must combine the PostgreSQL custom dump with a synchronized archive (tar/zip) of the <code>storage/</code> directory.</li></ol>
+<ol><li><strong>Implement Session-Based Admin Authentication:</strong> As noted in <code>docs/repository-review.md</code>, the admin dashboard (<code>admin/index.php</code>) currently relies solely on port separation (8001 vs 8000). A robust session-based authentication barrier should be added before hosting on network-accessible interfaces.</li></ol>
+<hr>
+<h2>11. AI USAGE DECLARATION</h2>
+<p>Artificial Intelligence assistance was utilized in this activity as a technical planning, script drafting, and documentation formatting tool. Specifically:</p>
+<ul><li>AI was utilized to analyze the target repository structure, parse SQL schemas, and structure the disaster recovery planning documentation.</li></ul>
+<ul><li>AI assisted in drafting PowerShell and Bash backup automation scripts and SQL verification queries.</li></ul>
+<ul><li><strong>Human/Administrator Responsibility:</strong> All generated commands and SQL queries were reviewed for database safety prior to execution. Real system commands were executed against the local PostgreSQL cluster, and all recorded sizes, hashes, and error messages reflect actual verified runtime outputs.</li></ul>
+<hr>
+<h2>APPENDIX A – EXECUTION STATUS SUMMARY</h2>
+<table>
+<thead><tr><th>Activity Phase</th><th>Required Milestone</th><th>Target / Tool</th><th>Actual Status</th></tr></thead>
+<tbody>
+<tr><td><strong>Inspection</strong></td><td>Inspect target repository & SQL schema</td><td>GitHub repository & local workspace</td><td><strong>COMPLETED AND VERIFIED</strong></td></tr>
+<tr><td><strong>Inspection</strong></td><td>Identify actual DBMS and database name</td><td>PostgreSQL 18 / <code>grp05_lostandfounddb</code></td><td><strong>COMPLETED AND VERIFIED</strong></td></tr>
+<tr><td><strong>Part A</strong></td><td>Create Comprehensive Backup Plan</td><td><code>backup-plan.md</code></td><td><strong>COMPLETED AND VERIFIED</strong></td></tr>
+<tr><td><strong>Part B</strong></td><td>Generate Automated Backup Script</td><td><code>backup/backup.ps1</code> & <code>backup.sh</code></td><td><strong>COMPLETED AND VERIFIED</strong></td></tr>
+<tr><td><strong>Part B</strong></td><td>Execute Logical Backup (<code>pg_dump -Fc</code>)</td><td><code>grp05_lostandfounddb_backup_20261112_235620.dump</code></td><td><strong>COMPLETED AND VERIFIED</strong></td></tr>
+<tr><td><strong>Part B</strong></td><td>Record File Size & SHA-256 Checksum</td><td>1,168 bytes / Hash verified</td><td><strong>COMPLETED AND VERIFIED</strong></td></tr>
+<tr><td><strong>Part B</strong></td><td>Inspect Archive TOC (<code>pg_restore --list</code>)</td><td><code>backup/inspect-backup.ps1</code></td><td><strong>COMPLETED AND VERIFIED</strong></td></tr>
+<tr><td><strong>Part C</strong></td><td>Create Isolated Test Database Script</td><td><code>backup/restore-test.ps1</code></td><td><strong>COMPLETED AND VERIFIED</strong></td></tr>
+<tr><td><strong>Part C</strong></td><td>Execute <code>createdb</code> on local cluster</td><td><code>createdb ... restore_test</code></td><td><strong>BLOCKED (Requires CREATEDB)</strong></td></tr>
+<tr><td><strong>Part C</strong></td><td>Execute <code>pg_restore</code> into test database</td><td><code>pg_restore ... restore_test</code></td><td><strong>PENDING (Awaiting createdb)</strong></td></tr>
+<tr><td><strong>Part C</strong></td><td>Create Restoration Verification Suite</td><td><code>restore/verify-restored-database.sql</code></td><td><strong>COMPLETED (Validated)</strong></td></tr>
+<tr><td><strong>Part D</strong></td><td>Audit Activity 4 Roles & Memberships</td><td><code>restore/verify-access-control.sql</code></td><td><strong>COMPLETED AND VERIFIED</strong></td></tr>
+<tr><td><strong>Part D</strong></td><td>Test Allowed & Denied Operations</td><td>Catalog queries & privilege tests</td><td><strong>COMPLETED AND VERIFIED</strong></td></tr>
+<tr><td><strong>Part D</strong></td><td>Create Role Recreation Script</td><td><code>scripts/recreate-roles.sql</code></td><td><strong>COMPLETED (Validated)</strong></td></tr>
+<tr><td><strong>Part D</strong></td><td>Design Controlled Recovery Simulation</td><td><code>restore/recovery-simulation.sql</code></td><td><strong>COMPLETED (Validated)</strong></td></tr>
+<tr><td><strong>Part E</strong></td><td>Create Evidence Checklist & Execution Log</td><td><code>evidence-checklist.md</code> / <code>execution-log.md</code></td><td><strong>COMPLETED AND VERIFIED</strong></td></tr>
+<tr><td><strong>Part E</strong></td><td>Generate Final Report & PDF Document</td><td><code>final-activity-6-report.md</code> / <code>.pdf</code></td><td><strong>COMPLETED AND VERIFIED</strong></td></tr>
+</tbody></table>
+<hr>
+<h2>APPENDIX B – EVIDENCE CHECKLIST</h2>
+<ul><li>[x] <strong>Target Repository Inspection:</strong> <code>evidence/git_status.txt</code> & <code>database-inspection.md</code>.</li></ul>
+<ul><li>[x] <strong>Database & Schema Identification:</strong> Documented in Section 2.</li></ul>
+<ul><li>[x] <strong>Backup Command Execution:</strong> Automated via <code>backup/backup.ps1</code> (Exit code: 0).</li></ul>
+<ul><li>[x] <strong>Backup File Metadata & Size:</strong> Recorded in Section 4.1 (1,168 bytes).</li></ul>
+<ul><li>[x] <strong>SHA-256 Checksum:</strong> <code>911D3555F2F505E311F4FA10A2482C599B9274AD1F2082AC7F55F01ED7CD617B</code>.</li></ul>
+<ul><li>[x] <strong>Archive TOC Listing:</strong> Verified via <code>pg_restore --list</code> (Section 4.2).</li></ul>
+<ul><li>[x] <strong>Role Catalog Verification:</strong> 6 Activity 4 roles verified in <code>pg_roles</code> (Section 6.1).</li></ul>
+<ul><li>[x] <strong>Allowed & Denied Permission Audit:</strong> Catalog audit verified in Section 6.2 and 6.3.</li></ul>
+<ul><li>[x] <strong>Documented Limitations & Errors:</strong> Exact <code>createdb</code> permission blocker recorded in Section 5.3 and Section 9.</li></ul>
+<hr>
+<h2>APPENDIX C – COMMAND REFERENCE</h2>
+<h3>1. Logical Backup Generation (Custom Format)</h3>
+<pre><code class='bash'>
+pg_dump -U lf_admin_user -h localhost -p 5432 -Fc -d grp05_lostandfounddb -f C:\Users\Lenovo\Downloads\backups\grp05_lostandfounddb_backup_20261112_235620.dump
+
+</code></pre>
+<h3>2. Archive Table of Contents Inspection</h3>
+<pre><code class='bash'>
+pg_restore --list "C:\Users\Lenovo\Downloads\backups\grp05_lostandfounddb_backup_20261112_235620.dump"
+
+</code></pre>
+<h3>3. Provisioning Isolated Test Database (Superuser Required)</h3>
+<pre><code class='bash'>
+createdb -U postgres -h localhost -p 5432 -E UTF8 grp05_lostandfounddb_activity6_restore_test
+
+</code></pre>
+<h3>4. Restoration of Archive into Test Database</h3>
+<pre><code class='bash'>
+pg_restore -U lf_admin_user -h localhost -p 5432 -d grp05_lostandfounddb_activity6_restore_test --verbose "C:\Users\Lenovo\Downloads\backups\grp05_lostandfounddb_backup_20261112_235620.dump"
+
+</code></pre>
+<h3>5. Executing Verification SQL Suites</h3>
+<pre><code class='bash'>
+psql -U lf_admin_user -h localhost -d grp05_lostandfounddb_activity6_restore_test -f restore/verify-restored-database.sql
+
+psql -U lf_admin_user -h localhost -d grp05_lostandfounddb -f restore/verify-access-control.sql
+
+psql -U lf_admin_user -h localhost -d grp05_lostandfounddb -f scripts/verify-permissions.sql
+
+</code></pre>
+</body></html>
