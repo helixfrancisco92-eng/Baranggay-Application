@@ -1,3 +1,0 @@
-Project,Database and backup file,Backup method,Restore test result,Access control after restore,Recovery simulation result,Proposed RPO and RTO,Evidence folder link,Feedback sent to owners,PDF progress document,Last updated
-Park-It Database Management System,"grp_parkitdb (grp_parkitdb_activity6.dump)","pg_dump Custom Format (-Fc, compressed)",,,,Proposed RPO: 24h (Logical) / 1h (WAL) | Proposed RTO: 30m,,,,2026-11-09
-
