@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# BrewPOS — Controlled Disaster Recovery Simulation Runner (Bash)
+# Course: COMP 018 — Database Administration (Activity 6)
+# Target Database: grp_brewposdb_recovery_test (DISPOSABLE DATABASE ONLY)
+# ==============================================================================
+set -euo pipefail
+
+ENV_FILE="${1:-../configuration/.env}"
+HOST="${DB_HOST:-localhost}"
+PORT="${DB_PORT:-5432}"
+ORIGINAL_DB="${DB_NAME:-grp_brewposdb}"
+RECOVERY_DB="${RECOVERY_TEST_DB:-grp_brewposdb_recovery_test}"
+USERNAME="${DB_SUPERUSER:-postgres}"
+BACKUP_DIR="${BACKUP_DIR:-../backups}"
+
+if [[ -f "$ENV_FILE" ]]; then
+    set -a
+    # shellcheck disable=SC1090
+    source "$ENV_FILE"
+    set +a
+    HOST="${DB_HOST:-$HOST}"
+    PORT="${DB_PORT:-$PORT}"
+    ORIGINAL_DB="${DB_NAME:-$ORIGINAL_DB}"
+    RECOVERY_DB="${RECOVERY_TEST_DB:-$RECOVERY_DB}"
+    USERNAME="${DB_SUPERUSER:-$USERNAME}"
+    export PGPASSWORD="${DB_PASSWORD:-${PGPASSWORD:-}}"
+fi
+
+if [[ "$RECOVERY_DB" == "$ORIGINAL_DB" ]]; then
+    echo "[CRITICAL SAFETY ERROR] Cannot simulate recovery on original database ($ORIGINAL_DB)!" >&2
+    exit 1
+fi
+
+if [[ -z "${PGPASSWORD:-}" ]]; then
+    read -rsp "Enter password for PostgreSQL user '$USERNAME': " PGPASSWORD
+    echo
+    export PGPASSWORD
+fi
+
+echo "[STEP 1] Provisioning recovery database: $RECOVERY_DB..."
+dropdb --if-exists -U "$USERNAME" -h "$HOST" -p "$PORT" "$RECOVERY_DB"
+createdb -U "$USERNAME" -h "$HOST" -p "$PORT" -E UTF8 "$RECOVERY_DB"
+
+echo "[STEP 2] Inserting disposable test record..."
+psql -U "$USERNAME" -h "$HOST" -p "$PORT" -d "$RECOVERY_DB" -f ../sql/recovery-test-data.sql
+
+echo "[STEP 3] Taking pre-incident snapshot..."
+mkdir -p "$BACKUP_DIR"
+SNAP_FILE="$BACKUP_DIR/brewpos_sim_pre_incident.dump"
+pg_dump -U "$USERNAME" -h "$HOST" -p "$PORT" -Fc -d "$RECOVERY_DB" -f "$SNAP_FILE"
+
+echo "[STEP 4] Simulating data loss..."
+psql -U "$USERNAME" -h "$HOST" -p "$PORT" -d "$RECOVERY_DB" -c "DELETE FROM public.menu_item WHERE item_name = '__DISPOSABLE_TEST_ITEM_TO_BE_LOST__';"
+
+echo "[STEP 5] Restoring from pre-incident snapshot..."
+dropdb -U "$USERNAME" -h "$HOST" -p "$PORT" "$RECOVERY_DB"
+createdb -U "$USERNAME" -h "$HOST" -p "$PORT" -E UTF8 "$RECOVERY_DB"
+pg_restore -U "$USERNAME" -h "$HOST" -p "$PORT" -d "$RECOVERY_DB" --no-owner "$SNAP_FILE"
+
+echo "[STEP 6] Confirming recovered record..."
+psql -U "$USERNAME" -h "$HOST" -p "$PORT" -d "$RECOVERY_DB" -c "SELECT item_id, item_name, price FROM public.menu_item WHERE item_name = '__DISPOSABLE_TEST_ITEM_TO_BE_LOST__';"
+echo "[SUCCESS] Disaster recovery simulation completed."
+
