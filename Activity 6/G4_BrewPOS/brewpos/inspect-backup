@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# BrewPOS — Backup Archive Inspection Script (Bash)
+# Course: COMP 018 — Database Administration (Activity 6)
+# Utility: pg_restore --list
+# ==============================================================================
+set -euo pipefail
+
+BACKUP_FILE="${1:-}"
+
+if [[ -z "$BACKUP_FILE" ]]; then
+    BACKUP_FILE=$(find ../backups -name "*.dump" -type f -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -n1 | cut -d' ' -f2-)
+fi
+
+if [[ -z "$BACKUP_FILE" || ! -f "$BACKUP_FILE" ]]; then
+    echo "[ERROR] No valid backup dump file found to inspect." >&2
+    exit 1
+fi
+
+echo "================================================================="
+echo " Inspecting: $BACKUP_FILE"
+echo " Size:       $(wc -c < "$BACKUP_FILE") bytes"
+echo "================================================================="
+
+if ! command -v pg_restore >/dev/null 2>&1; then
+    echo "[ERROR] 'pg_restore' is not in PATH." >&2
+    exit 1
+fi
+
+pg_restore --list "$BACKUP_FILE" > /tmp/brewpos_toc.txt
+
+echo "Checking core BrewPOS tables in archive TOC:"
+for tbl in staff menu_category menu_item order_ticket order_line_item; do
+    if grep -q "TABLE DATA public $tbl " /tmp/brewpos_toc.txt || grep -q "TABLE public $tbl " /tmp/brewpos_toc.txt; then
+        echo "  [OK] Found table: public.$tbl"
+    else
+        echo "  [FAIL] Missing table: public.$tbl"
+    fi
+done
+
+echo "Inspection complete."
+

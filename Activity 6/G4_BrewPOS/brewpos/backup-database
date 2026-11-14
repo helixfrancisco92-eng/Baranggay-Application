@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# BrewPOS — Automated Database Backup Script (Bash)
+# Course: COMP 018 — Database Administration (Activity 6)
+# Database Engine: PostgreSQL 18.6 / 16+
+# Target Database: grp_brewposdb
+# ==============================================================================
+set -euo pipefail
+
+ENV_FILE="${1:-../configuration/.env}"
+HOST="${DB_HOST:-localhost}"
+PORT="${DB_PORT:-5432}"
+DATABASE="${DB_NAME:-grp_brewposdb}"
+USERNAME="${DB_SUPERUSER:-postgres}"
+BACKUP_DIR="${BACKUP_DIR:-../backups}"
+
+echo "================================================================="
+echo " BrewPOS Database Backup Utility (PostgreSQL pg_dump -Fc)       "
+echo "================================================================="
+
+# 1. Load configuration securely from .env if present
+if [[ -f "$ENV_FILE" ]]; then
+    echo "[INFO] Loading configuration from $ENV_FILE..."
+    set -a
+    # shellcheck disable=SC1090
+    source "$ENV_FILE"
+    set +a
+    HOST="${DB_HOST:-$HOST}"
+    PORT="${DB_PORT:-$PORT}"
+    DATABASE="${DB_NAME:-$DATABASE}"
+    USERNAME="${DB_SUPERUSER:-$USERNAME}"
+    BACKUP_DIR="${BACKUP_DIR:-$BACKUP_DIR}"
+    export PGPASSWORD="${DB_PASSWORD:-${PGPASSWORD:-}}"
+fi
+
+# 2. Verify pg_dump utility
+if ! command -v pg_dump >/dev/null 2>&1; then
+    echo "[ERROR] 'pg_dump' utility is not installed or not in PATH." >&2
+    exit 1
+fi
+echo "[1/6] Detected $(pg_dump --version)"
+
+# 3. Secure password prompt if needed
+if [[ -z "${PGPASSWORD:-}" ]]; then
+    read -rsp "Enter password for PostgreSQL user '$USERNAME': " PGPASSWORD
+    echo
+    export PGPASSWORD
+fi
+
+# 4. Verify / create backup directory
+mkdir -p "$BACKUP_DIR"
+
+# 5. Generate timestamped filename
+TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+BACKUP_FILE="${BACKUP_DIR}/brewpos_${DATABASE}_${TIMESTAMP}.dump"
+
+echo "[2/6] Destination: $BACKUP_FILE"
+echo "[3/6] Target DB:   $DATABASE ($HOST:$PORT)"
+
+# 6. Execute pg_dump custom format (-Fc)
+echo "[4/6] Executing pg_dump..."
+pg_dump -U "$USERNAME" -h "$HOST" -p "$PORT" -Fc -v -d "$DATABASE" -f "$BACKUP_FILE"
+
+# 7. Confirm file existence and size
+if [[ ! -s "$BACKUP_FILE" ]]; then
+    echo "[ERROR] Backup file is empty or does not exist." >&2
+    exit 1
+fi
+FILE_SIZE=$(wc -c < "$BACKUP_FILE")
+echo "[5/6] File created successfully ($FILE_SIZE bytes)."
+
+# 8. Checksum
+echo "[6/6] Computing SHA-256..."
+if command -v sha256sum >/dev/null 2>&1; then
+    CHECKSUM=$(sha256sum "$BACKUP_FILE" | awk '{print $1}')
+elif command -v shasum >/dev/null 2>&1; then
+    CHECKSUM=$(shasum -a 256 "$BACKUP_FILE" | awk '{print $1}')
+else
+    CHECKSUM="N/A (sha256 utility missing)"
+fi
+
+echo "================================================================="
+echo " [SUCCESS] Backup Archive Created: $BACKUP_FILE"
+echo " SHA-256: $CHECKSUM"
+echo "================================================================="
+
