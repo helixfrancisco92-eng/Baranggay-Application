@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>COMP 018 Midterm Examination Report — Group 12</title>
+<style>
+  @page {
+    size: letter portrait;
+    margin: 20mm 15mm 20mm 15mm;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.5;
+    color: #1a202c;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+  }
+  .page-break {
+    page-break-before: always;
+  }
+  .no-break {
+    page-break-inside: avoid;
+  }
+  
+  /* Cover Page Styling */
+  .cover-page {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .cover-header {
+    font-size: 14pt;
+    font-weight: 700;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .cover-subtitle {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #718096;
+    margin-bottom: 40px;
+  }
+  .cover-title {
+    font-size: 26pt;
+    font-weight: 800;
+    color: #1a365d;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .cover-tagline {
+    font-size: 13pt;
+    font-style: italic;
+    color: #2b6cb0;
+    margin-bottom: 50px;
+  }
+  .cover-box {
+    width: 85%;
+    border: 1px solid #cbd5e0;
+    background-color: #f7fafc;
+    border-radius: 8px;
+    padding: 24px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .cover-box table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .cover-box td {
+    padding: 6px 10px;
+    font-size: 10pt;
+  }
+  .cover-box td.label {
+    font-weight: 700;
+    color: #2d3748;
+    width: 32%;
+  }
+  .cover-box td.value {
+    color: #4a5568;
+  }
+  
+  /* Headings */
+  h1 {
+    font-size: 16pt;
+    font-weight: 800;
+    color: #1a365d;
+    border-bottom: 2px solid #2b6cb0;
+    padding-bottom: 4px;
+    margin-top: 24px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  h2 {
+    font-size: 12.5pt;
+    font-weight: 700;
+    color: #2b6cb0;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 3px;
+  }
+  h3 {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #2d3748;
+    margin-top: 14px;
+    margin-bottom: 6px;
+  }
+  
+  p, li {
+    font-size: 9.5pt;
+    color: #2d3748;
+    text-align: justify;
+  }
+  ul, ol {
+    margin-top: 4px;
+    margin-bottom: 10px;
+    padding-left: 20px;
+  }
+  li {
+    margin-bottom: 4px;
+  }
+  
+  /* Tables */
+  table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 16px 0;
+    font-size: 8.5pt;
+  }
+  table.data-table th, table.data-table td {
+    border: 1px solid #cbd5e0;
+    padding: 6px 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+  table.data-table th {
+    background-color: #2b6cb0;
+    color: #ffffff;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 8pt;
+    letter-spacing: 0.5px;
+  }
+  table.data-table tr:nth-child(even) {
+    background-color: #f7fafc;
+  }
+  
+  /* Callout boxes */
+  .callout {
+    border-left: 4px solid #2b6cb0;
+    background-color: #ebf8ff;
+    padding: 10px 14px;
+    margin: 12px 0;
+    border-radius: 0 4px 4px 0;
+    font-size: 9pt;
+  }
+  .callout-title {
+    font-weight: 700;
+    color: #2b6cb0;
+    margin-bottom: 4px;
+  }
+  
+  /* Code blocks */
+  pre, code {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 8pt;
+  }
+  code {
+    background-color: #edf2f7;
+    color: #c53030;
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+  pre {
+    background-color: #2d3748;
+    color: #f7fafc;
+    padding: 8px 12px;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 8px 0;
+    line-height: 1.4;
+  }
+  pre code {
+    background-color: transparent;
+    color: #f7fafc;
+    padding: 0;
+  }
+  
+  /* Badges */
+  .badge {
+    display: inline-block;
+    padding: 2px 6px;
+    font-size: 7.5pt;
+    font-weight: 700;
+    border-radius: 3px;
+    text-transform: uppercase;
+  }
+  .badge-high { background-color: #fed7d7; color: #9b2c2c; }
+  .badge-med { background-color: #feebc8; color: #9c4221; }
+  .badge-easy { background-color: #c6f6d5; color: #22543d; }
+  .badge-pass { background-color: #c6f6d5; color: #22543d; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER PAGE ================= -->
+<div class="cover-page">
+  <div class="cover-header">Polytechnic University of the Philippines &bull; College of Computer and Information Sciences</div>
+  <div class="cover-subtitle">COMP 018 — Database Administration &bull; Academic Year 2026–2027</div>
+  
+  <div class="cover-title">INTEGRATED DATABASE ADMINISTRATION CHALLENGE</div>
+  <div class="cover-tagline">Practical Midterm Examination: Review, Design, Investigate, Troubleshoot, and Defend</div>
+  
+  <div class="cover-box">
+    <table>
+      <tr>
+        <td class="label">Defending / Reporting Group:</td>
+        <td class="value"><strong>Group 12 — iBarangay: Barangay Document Request System</strong></td>
+      </tr>
+      <tr>
+        <td class="label">Evaluated Peer Group:</td>
+        <td class="value"><strong>Group 7 — CAMPUSAFE: Campus Hazard & Safety Reporting System</strong></td>
+      </tr>
+      <tr>
+        <td class="label">Group 12 Members:</td>
+        <td class="value">
+          &bull; <strong>Amoranto, Denielle</strong> (Designer Flaw Review, Baseline Architecture, Diagnostics, Tracker Integration)<br>
+          &bull; <strong>Francisco, Helix</strong> (Lead, SQL Engineering, Incident Formulation, Answer Key, Review, Assembly)
+        </td>
+      </tr>
+      <tr>
+        <td class="label">Our Repository:</td>
+        <td class="value"><code>https://github.com/helixfrancisco92-eng/Baranggay-Application</code></td>
+      </tr>
+      <tr>
+        <td class="label">Peer Target Repository:</td>
+        <td class="value"><code>https://github.com/jeffersonorpesa2-ops/grp07-campussafe</code></td>
+      </tr>
+      <tr>
+        <td class="label">Database Platform:</td>
+        <td class="value">PostgreSQL 18.6 (x86_64 Windows) &bull; Spring Boot JPA &bull; Flyway Migrations</td>
+      </tr>
+      <tr>
+        <td class="label">Submission Date:</td>
+        <td class="value">November 7, 2026</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 2 ================= -->
+<h1>1. Executive Summary & Dual-Role Overview</h1>
+
+<p>This midterm practical assessment executes an integrated peer audit, incident engineering, and troubleshooting challenge under production database administration standards. In accordance with course guidelines, Group 12 executed two operational responsibilities:</p>
+
+<div class="callout">
+  <div class="callout-title">Operational Workflow Summary</div>
+  <strong>ROLE 1 (DESIGNER GROUP):</strong> Group 12 audited Group 7 (CAMPUSAFE). We identified 5 evidence-based flaws (G07-F1 to G07-F5), designed 5 balanced incident scenarios (G07-INC1 to G07-INC5), engineered fault and reset SQL scripts, authored a private instructor answer key, and evaluated Group 7's investigation report.<br><br>
+  <strong>ROLE 2 (OWNER GROUP):</strong> Group 12 defended iBarangay (PPGG_projectdb). We established the authoritative database baseline from Activities 3–6, structured an 8-step DBA troubleshooting suite across 5 investigation templates, created a production PostgreSQL diagnostic toolkit, and verified schema integrity while awaiting official instructor release of peer incident briefs.
+</div>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>System Dimension</th>
+      <th>Group 12 — iBarangay (Owner Role)</th>
+      <th>Group 7 — CAMPUSAFE (Evaluated Designer Role)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Application Domain</strong></td>
+      <td>Municipal citizen document requests & certification processing</td>
+      <td>Collegiate physical hazard reporting & maintenance dispatch</td>
+    </tr>
+    <tr>
+      <td><strong>Tech Stack</strong></td>
+      <td>Java 17 / Spring Boot 3.x, Hibernate JPA, HTML5/JS</td>
+      <td>PHP 8.2+ MVC, Apache 2.4, PDO PostgreSQL</td>
+    </tr>
+    <tr>
+      <td><strong>Database Platform</strong></td>
+      <td>PostgreSQL 18.6 on x86_64 Windows</td>
+      <td>PostgreSQL 14+ / 18.6 on x86_64 Windows</td>
+    </tr>
+    <tr>
+      <td><strong>Primary Database</strong></td>
+      <td><code>PPGG_projectdb</code></td>
+      <td><code>grp07_campussafedb</code></td>
+    </tr>
+    <tr>
+      <td><strong>Table Count</strong></td>
+      <td>7 relational tables (Flyway V1–V3)</td>
+      <td>9 relational tables (DDL <code>01_schema.sql</code>)</td>
+    </tr>
+    <tr>
+      <td><strong>Primary Key Strategy</strong></td>
+      <td><code>GENERATED BY DEFAULT AS IDENTITY</code> (Sequences)</td>
+      <td><code>SERIAL PRIMARY KEY</code> (Sequences)</td>
+    </tr>
+    <tr>
+      <td><strong>Access Control</strong></td>
+      <td><code>ibarangay_runtime_grp</code> / <code>ibarangay_app</code></td>
+      <td><code>app_runtime_grp</code>, <code>app_readonly_grp</code>, <code>app_backup_grp</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 3 ================= -->
+<h1>2. Designer Work — Flaw Review (Auditing CAMPUSAFE)</h1>
+
+<p>Group 12 performed a static analysis and schema audit of Group 7's repository (<code>grp07-campussafe</code>). Five evidence-based findings were verified and registered in the class Flaw Register:</p>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Flaw ID</th>
+      <th>Area & Activity</th>
+      <th>Severity</th>
+      <th>Description & Evidence Reference</th>
+      <th>Recommended Fix</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>G07-F1</strong></td>
+      <td>Privileges & RBAC<br>(Activity 4)</td>
+      <td><span class="badge badge-high">High</span></td>
+      <td><strong>Excessive Table-Level UPDATE on <code>app_user</code>:</strong> Runtime role <code>app_runtime_grp</code> holds whole-table UPDATE privileges without column restrictions, allowing modification of <code>role_id</code> (privilege escalation) and <code>account_status</code>.<br><em>Evidence: <code>database/03_roles_and_privileges.sql:64</code></em></td>
+      <td>Revoke table-wide UPDATE; grant column-level UPDATE strictly on <code>(full_name, email, password_hash)</code>.</td>
+      <td><span class="badge badge-pass">Fixed</span></td>
+    </tr>
+    <tr>
+      <td><strong>G07-F2</strong></td>
+      <td>Referential Integrity<br>(Activity 3 & 4)</td>
+      <td><span class="badge badge-high">High</span></td>
+      <td><strong>Cascading Deletions Purging Audit History:</strong> Foreign keys on child tables (<code>assignment</code>, <code>report_status_history</code>, <code>maintenance_action</code>, <code>attachment</code>) use <code>ON DELETE CASCADE</code>. Deleting a parent report permanently wipes out compliance audit history.<br><em>Evidence: <code>database/01_schema.sql:110,125,139,153</code></em></td>
+      <td>Alter foreign keys to <code>ON DELETE RESTRICT</code>; implement Soft-Delete pattern (<code>is_deleted</code>, <code>deleted_at</code>).</td>
+      <td><span class="badge badge-pass">Fixed</span></td>
+    </tr>
+    <tr>
+      <td><strong>G07-F3</strong></td>
+      <td>Triggers & Auditing<br>(Activity 3 & 5)</td>
+      <td><span class="badge badge-med">Medium</span></td>
+      <td><strong>Missing Database Status Transition Trigger:</strong> Status history logging is handled solely in PHP controller logic; zero database triggers exist on <code>hazard_report</code>. Direct SQL updates or batch operations bypass audit history.<br><em>Evidence: <code>pg_trigger</code> query returns 0 rows</em></td>
+      <td>Create an <code>AFTER UPDATE OF status</code> trigger <code>trg_hazard_report_status_audit</code> to automate audit insertion.</td>
+      <td><span class="badge badge-pass">Fixed</span></td>
+    </tr>
+    <tr>
+      <td><strong>G07-F4</strong></td>
+      <td>Backup & Recovery<br>(Activity 6)</td>
+      <td><span class="badge badge-med">Medium</span></td>
+      <td><strong>Backup Operator Role Privilege Fragility:</strong> Backup user <code>campussafe_backup</code> lacks <code>pg_read_all_data</code> pre-defined role, risking backup failure on new tables. Furthermore, backup procedure omits cluster roles (<code>pg_dumpall --globals-only</code>).<br><em>Evidence: <code>pg_roles</code> catalog inspection</em></td>
+      <td>Grant <code>pg_read_all_data</code> to <code>app_backup_grp</code>; automate <code>pg_dumpall --globals-only</code> in backup script.</td>
+      <td><span class="badge badge-pass">Fixed</span></td>
+    </tr>
+    <tr>
+      <td><strong>G07-F5</strong></td>
+      <td>Schema Constraints<br>(Activity 3 & 5)</td>
+      <td><span class="badge badge-med">Medium</span></td>
+      <td><strong>Missing Location Uniqueness & Verification Priority:</strong> <code>campus_location</code> lacks composite UNIQUE on <code>(building, floor, room_area)</code>, creating duplicate physical rooms. <code>hazard_report.priority</code> allows NULL on verified reports.<br><em>Evidence: <code>pg_constraint</code> catalog inspection</em></td>
+      <td>De-duplicate locations; add composite <code>UNIQUE</code>; backfill verified NULLs; add conditional <code>CHECK</code>.</td>
+      <td><span class="badge badge-pass">Fixed</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 4 ================= -->
+<h1>3. Designer Work — Incident Scenarios & Testing</h1>
+
+<p>Group 12 designed five traceable, reproducible incident scenarios for CAMPUSAFE. Scenarios were tested on isolated disposable database <code>campussafe_midterm_test</code>:</p>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Incident ID</th>
+      <th>Linked Flaw</th>
+      <th>Variant & Activity Area</th>
+      <th>Difficulty & Time</th>
+      <th>Public Symptoms Summary</th>
+      <th>Test Verdict</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>G07-INC1</strong></td>
+      <td>G07-F1</td>
+      <td>Role Privileges & Access Control<br>(Activity 4)</td>
+      <td><span class="badge badge-easy">Easy</span> &bull; 15 min</td>
+      <td>Application account modifies a user's assigned role or account status even though the action should be restricted to administrators.</td>
+      <td><span class="badge badge-pass">Verified (Pass)</span></td>
+    </tr>
+    <tr>
+      <td><strong>G07-INC2</strong></td>
+      <td>G07-F2</td>
+      <td>Schema & Referential Integrity<br>(Activity 3 & 4)</td>
+      <td><span class="badge badge-med">Medium</span> &bull; 25 min</td>
+      <td>An administrator deletes an old hazard report, causing its status history, maintenance records, and photo evidence to disappear.</td>
+      <td><span class="badge badge-pass">Verified (Pass)</span></td>
+    </tr>
+    <tr>
+      <td><strong>G07-INC3</strong></td>
+      <td>G07-F3</td>
+      <td>Triggers & State Auditing<br>(Activity 3 & 5)</td>
+      <td><span class="badge badge-med">Medium</span> &bull; 25 min</td>
+      <td>Direct SQL updates to a report's status succeed, but no corresponding entry appears in the report status history log.</td>
+      <td><span class="badge badge-pass">Verified (Pass)</span></td>
+    </tr>
+    <tr>
+      <td><strong>G07-INC4</strong></td>
+      <td>G07-F4</td>
+      <td>Backup Service & Recovery<br>(Activity 6)</td>
+      <td><span class="badge badge-high">Hard</span> &bull; 30 min</td>
+      <td>Automated nightly backup jobs fail with permission denied errors; restore drill onto a clean server fails during role recreation.</td>
+      <td><span class="badge badge-pass">Verified (Pass)</span></td>
+    </tr>
+    <tr>
+      <td><strong>G07-INC5</strong></td>
+      <td>G07-F5</td>
+      <td>Schema Constraints & Normalization<br>(Activity 3 & 5)</td>
+      <td><span class="badge badge-easy">Easy</span> &bull; 15 min</td>
+      <td>Administrators encounter duplicate entries for the same room; maintenance staff find verified reports lacking priority triage ratings.</td>
+      <td><span class="badge badge-pass">Verified (Pass)</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Summary of Executable Script Testing:</h3>
+<ul>
+  <li><strong>Fault Scripts:</strong> Accurately reproduced observable symptoms without permanent collateral corruption.</li>
+  <li><strong>Reset Scripts:</strong> Idempotent and safely restored the database baseline on disposable copies.</li>
+  <li><strong>Verification Tests:</strong> Enforced negative tests (confirming improper operations fail with <code>SQLSTATE 42501</code>, <code>23503</code>, <code>23505</code>, <code>23514</code>) and positive tests (confirming legitimate workflows succeed).</li>
+</ul>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 5 ================= -->
+<h1>4. Owner Work — Database Baseline (iBarangay)</h1>
+
+<p>Group 12 established the authoritative baseline for our project (<strong>iBarangay</strong>) across Activities 3 to 6:</p>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Table Name</th>
+      <th>Primary Key</th>
+      <th>Key Columns & Constraints</th>
+      <th>Foreign Key References & Cascade Rules</th>
+      <th>Seeded Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>admins</code></td>
+      <td><code>admin_id</code> (Identity)</td>
+      <td><code>full_name</code>, <code>username</code>, <code>role</code>, <code>is_active</code>, <code>created_at</code></td>
+      <td>None (Master Lookup)</td>
+      <td>3 rows</td>
+    </tr>
+    <tr>
+      <td><code>citizens</code></td>
+      <td><code>citizen_id</code> (Identity)</td>
+      <td><code>first_name</code>, <code>last_name</code>, <code>date_of_birth</code>, <code>address</code>, <code>contact_no</code>, <code>email</code></td>
+      <td>None (Master Entity)</td>
+      <td>5 rows</td>
+    </tr>
+    <tr>
+      <td><code>document_types</code></td>
+      <td><code>document_type_id</code> (Identity)</td>
+      <td><code>name</code>, <code>description</code>, <code>processing_days</code>, <code>fee</code>, <code>is_active</code></td>
+      <td>None (Master Lookup)</td>
+      <td>4 rows</td>
+    </tr>
+    <tr>
+      <td><code>requirements</code></td>
+      <td><code>requirement_id</code> (Identity)</td>
+      <td><code>name</code>, <code>description</code>, <code>is_active</code></td>
+      <td>None (Master Lookup)</td>
+      <td>5 rows</td>
+    </tr>
+    <tr>
+      <td><code>document_type_requirements</code></td>
+      <td>Composite <code>(type_id, req_id)</code></td>
+      <td><code>is_required</code></td>
+      <td><code>type_id REFERENCES document_types ON DELETE CASCADE</code><br><code>req_id REFERENCES requirements ON DELETE CASCADE</code></td>
+      <td>11 rows</td>
+    </tr>
+    <tr>
+      <td><code>document_requests</code></td>
+      <td><code>request_id</code> (Identity)</td>
+      <td><code>request_date</code>, <code>purpose</code>, <code>status</code>, <code>remarks</code>, <code>processed_at</code></td>
+      <td><code>citizen_id REFERENCES citizens</code><br><code>document_type_id REFERENCES document_types</code><br><code>approved_by REFERENCES admins</code></td>
+      <td>6 rows</td>
+    </tr>
+    <tr>
+      <td><code>request_status_history</code></td>
+      <td><code>history_id</code> (Identity)</td>
+      <td><code>old_status</code>, <code>new_status</code>, <code>changed_at</code>, <code>remarks</code></td>
+      <td><code>request_id REFERENCES document_requests ON DELETE CASCADE</code><br><code>admin_id REFERENCES admins</code> (Nullable per V2)</td>
+      <td>8 rows</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Owner RBAC & Privilege Architecture (Activity 4):</h3>
+<ul>
+  <li><strong>Runtime Group Role (<code>ibarangay_runtime_grp</code>, <code>NOLOGIN</code>):</strong> Holds <code>CONNECT</code> on <code>PPGG_projectdb</code>, <code>USAGE</code> on schema <code>public</code>, <code>SELECT</code> on all 7 tables, <code>INSERT/UPDATE</code> on <code>citizens</code> and <code>document_requests</code>, <code>INSERT</code> on <code>request_status_history</code>, and sequence usage.</li>
+  <li><strong>Security Restrictions:</strong> <code>DELETE</code> is completely revoked across all tables. Audit history updates are strictly prohibited.</li>
+</ul>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 6 ================= -->
+<h1>5. Owner Work — Investigation & Troubleshooting Suite</h1>
+
+<div class="callout">
+  <div class="callout-title">Official Incident Intake Status & No Fabrication Policy</div>
+  In strict adherence to the assessment rubric, official incident briefs designed for Group 12 by the assigned peer designer group must be released by the instructor. As of submission time, the instructor has not released the official briefs. In compliance with instructions, Group 12 <strong>does not fabricate simulated incidents</strong>. All five investigation workspaces (<code>incident_1_investigation.md</code> to <code>incident_5_investigation.md</code>) are pre-structured with the complete 8-step DBA troubleshooting method and baseline metrics, ready for execution upon official release.
+</div>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Investigation Module</th>
+      <th>Assigned Activity Focus</th>
+      <th>Diagnostic & Inspection Protocol Prepared</th>
+      <th>Investigation Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Owner Incident #1</strong></td>
+      <td>Role Privileges (Activity 4)</td>
+      <td>Audit <code>information_schema.table_privileges</code> and <code>column_privileges</code>; test unauthorized role modification under <code>ibarangay_app</code>.</td>
+      <td><code>WAITING FOR OFFICIAL BRIEF</code></td>
+    </tr>
+    <tr>
+      <td><strong>Owner Incident #2</strong></td>
+      <td>Objects & Schema (Activities 3–5)</td>
+      <td>Inspect <code>pg_constraint</code>, <code>pg_class</code>, and foreign key definitions; verify object availability and connectivity parameters.</td>
+      <td><code>WAITING FOR OFFICIAL BRIEF</code></td>
+    </tr>
+    <tr>
+      <td><strong>Owner Incident #3</strong></td>
+      <td>Performance & Maintenance (Activity 5)</td>
+      <td>Execute <code>EXPLAIN (ANALYZE, BUFFERS)</code>; check <code>pg_stat_user_tables</code> for dead tuples; inspect index scan efficiency.</td>
+      <td><code>WAITING FOR OFFICIAL BRIEF</code></td>
+    </tr>
+    <tr>
+      <td><strong>Owner Incident #4</strong></td>
+      <td>Backup & Recovery (Activity 6)</td>
+      <td>Validate backup archive integrity via <code>pg_restore --list</code>; test non-superuser backup operator read permissions.</td>
+      <td><code>WAITING FOR OFFICIAL BRIEF</code></td>
+    </tr>
+    <tr>
+      <td><strong>Owner Incident #5</strong></td>
+      <td>Sequences & Data Integrity (Free Choice)</td>
+      <td>Audit identity sequence alignment against table <code>MAX(id)</code>; inspect check constraints and rejection remarks rules.</td>
+      <td><code>WAITING FOR OFFICIAL BRIEF</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>PostgreSQL Diagnostic SQL Toolkit:</h3>
+<p>Group 12 developed and documented 5 production-grade diagnostic scripts in <code>midterm/owner/04_sql_diagnostics/</code>:</p>
+<ol>
+  <li><code>01_connection_and_database.sql</code>: Server version, active connections, connection concurrency, and database size.</li>
+  <li><code>02_schema_and_catalog.sql</code>: Table catalog, primary keys, foreign key delete actions, and secondary indexes.</li>
+  <li><code>03_access_control_and_roles.sql</code>: Role attributes, memberships, table privileges, and column-level restrictions.</li>
+  <li><code>04_performance_and_maintenance.sql</code>: Buffer cache hit ratio, dead tuple bloat, and vacuum statistics.</li>
+  <li><code>05_backup_and_recovery.sql</code>: Sequence synchronization audit, WAL archiving status, and public object counts.</li>
+</ol>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 7 ================= -->
+<h1>6. Designer Review & Peer Scorecard (Evaluating Group 7)</h1>
+
+<p>Group 12 evaluated Group 7's submitted owner investigation report (<code>grp07-campussafe/midterm/COMP018_MIDTERM_DOCUMENTATION_G07.md</code>) against our private instructor answer key:</p>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Incident ID</th>
+      <th>Target Flaw</th>
+      <th>Group 7 Corrective SQL Action</th>
+      <th>Verification Result</th>
+      <th>Designer Review Outcome</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>G07-INC1</strong></td>
+      <td>G07-F1</td>
+      <td>Revoked table-wide UPDATE; granted column-level UPDATE on safe profile attributes.</td>
+      <td>Negative test denied with <code>SQLSTATE 42501</code>; positive test succeeded with <code>UPDATE 1</code>.</td>
+      <td><strong>Solved as Intended (10/10)</strong></td>
+    </tr>
+    <tr>
+      <td><strong>G07-INC2</strong></td>
+      <td>G07-F2</td>
+      <td>Altered foreign keys to <code>ON DELETE RESTRICT</code>; added soft-delete columns (<code>is_deleted</code>, <code>deleted_at</code>).</td>
+      <td>Hard delete blocked with <code>SQLSTATE 23503</code>; soft delete preserved 100% of audit history.</td>
+      <td><strong>Solved as Intended (10/10)</strong></td>
+    </tr>
+    <tr>
+      <td><strong>G07-INC3</strong></td>
+      <td>G07-F3</td>
+      <td>Built PL/pgSQL function <code>trg_log_hazard_status_change()</code> and <code>AFTER UPDATE</code> trigger.</td>
+      <td>Direct SQL update automatically generated historical audit row in <code>report_status_history</code>.</td>
+      <td><strong>Solved as Intended (10/10)</strong></td>
+    </tr>
+    <tr>
+      <td><strong>G07-INC4</strong></td>
+      <td>G07-F5</td>
+      <td>Used CTE window function (<code>FIRST_VALUE</code>) to re-point FKs; deleted duplicates; added <code>UNIQUE</code>.</td>
+      <td>Duplicate location insert blocked with <code>SQLSTATE 23505</code>; zero duplicate rooms remain.</td>
+      <td><strong>Solved as Intended (10/10)</strong></td>
+    </tr>
+    <tr>
+      <td><strong>G07-INC5</strong></td>
+      <td>G07-F5</td>
+      <td>Backfilled verified reports with 'MEDIUM'; added conditional <code>CHECK</code> constraint on priority.</td>
+      <td>Negative test blocked with <code>SQLSTATE 23514</code>; valid verification update succeeded.</td>
+      <td><strong>Solved as Intended (10/10)</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <div class="callout-title">Designer Evaluation Score: 50 / 50 (Exemplary Performance)</div>
+  Group 7 demonstrated outstanding technical proficiency, disciplined diagnostic investigation, and safe remediation on disposable test databases. All five incidents were resolved exactly as intended by our answer key.
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================= SECTION 8 ================= -->
+<h1>7. Prevention, Contributions & Declarations</h1>
+
+<h3>7.1 Practical DBA Preventive Recommendations</h3>
+<ol>
+  <li><strong>Automated Privilege Linting in CI/CD:</strong> Mandate automated schema migration checks in GitHub Actions that fail pull requests if whole-table <code>UPDATE</code> or <code>DELETE</code> grants are issued on authentication catalogs (<code>app_user</code>, <code>admins</code>).</li>
+  <li><strong>Mandatory Soft-Deletion on Compliance Entities:</strong> Establish an institutional DBA standard prohibiting <code>CASCADE</code> delete rules on historical audit, financial, or compliance tables. Enforce soft deletion (<code>is_deleted</code>, <code>deleted_at</code>) across all operational entities.</li>
+  <li><strong>Engine-Level State Audit Triggers:</strong> Mandate that all state transition tables be driven by PostgreSQL <code>AFTER UPDATE</code> triggers rather than client application code, ensuring complete auditability for direct SQL updates and batch jobs.</li>
+  <li><strong>Automated 3-2-1 Disaster Drills:</strong> Pair database-level logical backups (<code>pg_dump -Fc</code>) with cluster-wide role archiving (<code>pg_dumpall --globals-only</code>) and schedule monthly automated restore drills into disposable test environments.</li>
+</ol>
+
+<h3>7.2 Individual Member Contribution Record</h3>
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Member Name</th>
+      <th>Student Role</th>
+      <th>Key Midterm Responsibilities & Deliverables</th>
+      <th>Sign-Off</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Amoranto, Denielle</strong></td>
+      <td>Group Member</td>
+      <td>Designer Flaw Review (Activity 4 & 5), Baseline Establishment (<code>PPGG_projectdb</code>), Owner Investigation Template Architecture, Diagnostic Toolkit Development, Google Sheets Tracker Record Formulation</td>
+      <td>Verified</td>
+    </tr>
+    <tr>
+      <td><strong>Francisco, Helix</strong></td>
+      <td>Lead / Repo Owner</td>
+      <td>Repository Codebase Inspection, Incident Scenario Formulation (G07-INC1 to G07-INC5), Public Brief Drafting, Fault & Reset SQL Script Engineering, Private Instructor Answer Key Compilation, Designer Review, Final PDF Report Assembly, AI Validation Auditing</td>
+      <td>Verified</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>7.3 AI Usage Declaration & Validation Statement</h3>
+<p>In compliance with COMP 018 academic integrity guidelines, generative AI (Antigravity AI engine) was utilized to assist with documentation drafting, catalog query formatting, and report layout assembly. All SQL statements, catalog queries, schema constraints, fault injection scripts, reset procedures, and diagnostic checks were independently analyzed, tested, and validated on local PostgreSQL 18.6 environments by the team members. No unverified AI outputs were incorporated into this submission.</p>
+
+</body>
+</html>
