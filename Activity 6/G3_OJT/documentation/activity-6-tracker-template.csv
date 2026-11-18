@@ -1,3 +1,0 @@
-Project,Database and backup file,Backup method,Restore test result,Access control after restore,Recovery simulation result,Proposed RPO and RTO,Evidence folder link,Feedback sent to owners,PDF progress document,Last updated
-Project OJT RMA System,ojt_management (Repo file: OJT Database.sql / Demo dump),PostgreSQL pg_dump (Custom Archive -Fc),Pending,Pending,Pending,"Proposed RPO: 24h / Proposed RTO: 30m",evidence/,Pending,Project-OJT-RMA-System-Activity-6-Report.pdf,2026-11-12
-
